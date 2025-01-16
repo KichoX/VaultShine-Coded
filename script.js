@@ -24,6 +24,10 @@ let uploadedImageBack = null;
 let isDraggingFront = false, isDraggingBack = false;
 let startXFront, startYFront, startXBack, startYBack, currentXFront = 0, currentYFront = 0, currentXBack = 0, currentYBack = 0;
 
+// Add pinch-to-zoom functionality and smoother scaling
+let initialPinchDistance = 0;
+let currentScale = 1;
+
 // Update the background images
 backgroundSelect.addEventListener("change", () => {
   const selectedValue = backgroundSelect.value;
@@ -267,63 +271,105 @@ document.querySelector("form")?.addEventListener("submit", (e) => {
 });
 
 // Update the scale slider attributes
-scaleSliderFront.setAttribute("min", "0.05");  // Smaller minimum
-scaleSliderFront.setAttribute("max", "2.0");   // Reduced maximum
-scaleSliderFront.setAttribute("step", "0.05"); // Finer control
-scaleSliderBack.setAttribute("min", "0.05");
-scaleSliderBack.setAttribute("max", "2.0");
-scaleSliderBack.setAttribute("step", "0.05");
+scaleSliderFront.setAttribute("min", "0.1");
+scaleSliderFront.setAttribute("max", "3.0");
+scaleSliderFront.setAttribute("step", "0.01"); // Much smaller steps for smoother scaling
+scaleSliderBack.setAttribute("min", "0.1");
+scaleSliderBack.setAttribute("max", "3.0");
+scaleSliderBack.setAttribute("step", "0.01");
 
-// Update touch events for better mobile support
+// Handle pinch gestures for front image
 imageOverlayFront.addEventListener("touchstart", (e) => {
     if (!uploadedImageFront) return;
     e.preventDefault();
-    isDraggingFront = true;
-    const touch = e.touches[0];
-    startXFront = touch.clientX - currentXFront;
-    startYFront = touch.clientY - currentYFront;
+    if (e.touches.length === 2) {
+        // Get initial pinch distance
+        initialPinchDistance = getPinchDistance(e.touches);
+        currentScale = parseFloat(scaleSliderFront.value);
+    } else {
+        isDraggingFront = true;
+        const touch = e.touches[0];
+        startXFront = touch.clientX - currentXFront;
+        startYFront = touch.clientY - currentYFront;
+    }
 }, { passive: false });
 
 document.addEventListener("touchmove", (e) => {
-    if (!isDraggingFront || !uploadedImageFront) return;
+    if (!uploadedImageFront) return;
     e.preventDefault();
-    const touch = e.touches[0];
-    currentXFront = touch.clientX - startXFront;
-    currentYFront = touch.clientY - startYFront;
     
-    // Limit movement within card boundaries
-    const maxMove = 100; // Maximum percentage movement
-    const xMove = Math.max(-maxMove, Math.min(maxMove, currentXFront / 2));
-    const yMove = Math.max(-maxMove, Math.min(maxMove, currentYFront / 2));
-    
-    uploadedImageFront.style.transform = `translate(-50%, -50%) scale(${scaleSliderFront.value})`;
-    uploadedImageFront.style.left = `${50 + xMove}%`;
-    uploadedImageFront.style.top = `${50 + yMove}%`;
+    if (e.touches.length === 2 && uploadedImageFront) {
+        // Handle pinch scaling
+        const currentPinchDistance = getPinchDistance(e.touches);
+        const scaleDiff = currentPinchDistance / initialPinchDistance;
+        const newScale = Math.min(Math.max(currentScale * scaleDiff, 0.1), 3.0);
+        scaleSliderFront.value = newScale;
+        uploadedImageFront.style.transform = `translate(-50%, -50%) scale(${newScale})`;
+    } else if (isDraggingFront) {
+        // Handle dragging
+        const touch = e.touches[0];
+        currentXFront = touch.clientX - startXFront;
+        currentYFront = touch.clientY - startYFront;
+        
+        const maxMove = 100;
+        const xMove = Math.max(-maxMove, Math.min(maxMove, currentXFront / 2));
+        const yMove = Math.max(-maxMove, Math.min(maxMove, currentYFront / 2));
+        
+        uploadedImageFront.style.left = `${50 + xMove}%`;
+        uploadedImageFront.style.top = `${50 + yMove}%`;
+    }
 }, { passive: false });
 
 // Same updates for back image
 imageOverlayBack.addEventListener("touchstart", (e) => {
     if (!uploadedImageBack) return;
     e.preventDefault();
-    isDraggingBack = true;
-    const touch = e.touches[0];
-    startXBack = touch.clientX - currentXBack;
-    startYBack = touch.clientY - currentYBack;
+    if (e.touches.length === 2) {
+        initialPinchDistance = getPinchDistance(e.touches);
+        currentScale = parseFloat(scaleSliderBack.value);
+    } else {
+        isDraggingBack = true;
+        const touch = e.touches[0];
+        startXBack = touch.clientX - currentXBack;
+        startYBack = touch.clientY - currentYBack;
+    }
 }, { passive: false });
 
 document.addEventListener("touchmove", (e) => {
-    if (!isDraggingBack || !uploadedImageBack) return;
+    if (!uploadedImageBack) return;
     e.preventDefault();
-    const touch = e.touches[0];
-    currentXBack = touch.clientX - startXBack;
-    currentYBack = touch.clientY - startYBack;
     
-    const maxMove = 100;
-    const xMove = Math.max(-maxMove, Math.min(maxMove, currentXBack / 2));
-    const yMove = Math.max(-maxMove, Math.min(maxMove, currentYBack / 2));
-    
-    uploadedImageBack.style.transform = `translate(-50%, -50%) scale(${scaleSliderBack.value})`;
-    uploadedImageBack.style.left = `${50 + xMove}%`;
-    uploadedImageBack.style.top = `${50 + yMove}%`;
+    if (e.touches.length === 2 && uploadedImageBack) {
+        const currentPinchDistance = getPinchDistance(e.touches);
+        const scaleDiff = currentPinchDistance / initialPinchDistance;
+        const newScale = Math.min(Math.max(currentScale * scaleDiff, 0.1), 3.0);
+        scaleSliderBack.value = newScale;
+        uploadedImageBack.style.transform = `translate(-50%, -50%) scale(${newScale})`;
+    } else if (isDraggingBack) {
+        const touch = e.touches[0];
+        currentXBack = touch.clientX - startXBack;
+        currentYBack = touch.clientY - startYBack;
+        
+        const maxMove = 100;
+        const xMove = Math.max(-maxMove, Math.min(maxMove, currentXBack / 2));
+        const yMove = Math.max(-maxMove, Math.min(maxMove, currentYBack / 2));
+        
+        uploadedImageBack.style.left = `${50 + xMove}%`;
+        uploadedImageBack.style.top = `${50 + yMove}%`;
+    }
 }, { passive: false });
+
+// Helper function to calculate pinch distance
+function getPinchDistance(touches) {
+    return Math.hypot(
+        touches[0].clientX - touches[1].clientX,
+        touches[0].clientY - touches[1].clientY
+    );
+}
+
+// Update touch end handlers
+document.addEventListener("touchend", () => {
+    isDraggingFront = false;
+    isDraggingBack = false;
+});
   
