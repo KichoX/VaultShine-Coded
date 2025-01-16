@@ -267,50 +267,63 @@ document.querySelector("form")?.addEventListener("submit", (e) => {
 });
 
 // Update the scale slider attributes
-scaleSliderFront.setAttribute("min", "0.1");  // Smaller minimum value
-scaleSliderFront.setAttribute("max", "3.0");  // Larger maximum value
-scaleSliderBack.setAttribute("min", "0.1");
-scaleSliderBack.setAttribute("max", "3.0");
+scaleSliderFront.setAttribute("min", "0.05");  // Smaller minimum
+scaleSliderFront.setAttribute("max", "2.0");   // Reduced maximum
+scaleSliderFront.setAttribute("step", "0.05"); // Finer control
+scaleSliderBack.setAttribute("min", "0.05");
+scaleSliderBack.setAttribute("max", "2.0");
+scaleSliderBack.setAttribute("step", "0.05");
 
-// Add touch events for dragging front image
+// Update touch events for better mobile support
 imageOverlayFront.addEventListener("touchstart", (e) => {
     if (!uploadedImageFront) return;
+    e.preventDefault();
     isDraggingFront = true;
-    startXFront = e.touches[0].clientX - currentXFront;
-    startYFront = e.touches[0].clientY - currentYFront;
-});
+    const touch = e.touches[0];
+    startXFront = touch.clientX - currentXFront;
+    startYFront = touch.clientY - currentYFront;
+}, { passive: false });
 
 document.addEventListener("touchmove", (e) => {
     if (!isDraggingFront || !uploadedImageFront) return;
-    e.preventDefault(); // Prevent scrolling while dragging
-    currentXFront = e.touches[0].clientX - startXFront;
-    currentYFront = e.touches[0].clientY - startYFront;
-    uploadedImageFront.style.left = `${50 + currentXFront / 4}%`;
-    uploadedImageFront.style.top = `${50 + currentYFront / 4}%`;
+    e.preventDefault();
+    const touch = e.touches[0];
+    currentXFront = touch.clientX - startXFront;
+    currentYFront = touch.clientY - startYFront;
+    
+    // Limit movement within card boundaries
+    const maxMove = 100; // Maximum percentage movement
+    const xMove = Math.max(-maxMove, Math.min(maxMove, currentXFront / 2));
+    const yMove = Math.max(-maxMove, Math.min(maxMove, currentYFront / 2));
+    
+    uploadedImageFront.style.transform = `translate(-50%, -50%) scale(${scaleSliderFront.value})`;
+    uploadedImageFront.style.left = `${50 + xMove}%`;
+    uploadedImageFront.style.top = `${50 + yMove}%`;
 }, { passive: false });
 
-document.addEventListener("touchend", () => {
-    isDraggingFront = false;
-});
-
-// Add touch events for dragging back image
+// Same updates for back image
 imageOverlayBack.addEventListener("touchstart", (e) => {
     if (!uploadedImageBack) return;
+    e.preventDefault();
     isDraggingBack = true;
-    startXBack = e.touches[0].clientX - currentXBack;
-    startYBack = e.touches[0].clientY - currentYBack;
-});
+    const touch = e.touches[0];
+    startXBack = touch.clientX - currentXBack;
+    startYBack = touch.clientY - currentYBack;
+}, { passive: false });
 
 document.addEventListener("touchmove", (e) => {
     if (!isDraggingBack || !uploadedImageBack) return;
-    e.preventDefault(); // Prevent scrolling while dragging
-    currentXBack = e.touches[0].clientX - startXBack;
-    currentYBack = e.touches[0].clientY - startYBack;
-    uploadedImageBack.style.left = `${50 + currentXBack / 4}%`;
-    uploadedImageBack.style.top = `${50 + currentYBack / 4}%`;
+    e.preventDefault();
+    const touch = e.touches[0];
+    currentXBack = touch.clientX - startXBack;
+    currentYBack = touch.clientY - startYBack;
+    
+    const maxMove = 100;
+    const xMove = Math.max(-maxMove, Math.min(maxMove, currentXBack / 2));
+    const yMove = Math.max(-maxMove, Math.min(maxMove, currentYBack / 2));
+    
+    uploadedImageBack.style.transform = `translate(-50%, -50%) scale(${scaleSliderBack.value})`;
+    uploadedImageBack.style.left = `${50 + xMove}%`;
+    uploadedImageBack.style.top = `${50 + yMove}%`;
 }, { passive: false });
-
-document.addEventListener("touchend", () => {
-    isDraggingBack = false;
-});
   
