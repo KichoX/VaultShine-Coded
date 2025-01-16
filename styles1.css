@@ -1,0 +1,413 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif, 'Futura';
+    text-align: center;
+    margin: 20px;
+    background-color: #FFFFFF;
+    color: #333;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+#customization-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+}
+
+#card-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+#card-front, #card-back {
+    width: 450px;
+    height: 250px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: #f9f9f9;
+    box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.1);
+}
+
+#card-front-background, #card-back-background {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+}
+
+#image-overlay-front, #image-overlay-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    cursor: grab;
+}
+
+#text-overlay-front, #text-overlay-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#name-text {
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+#card-number-text {
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+#date-text {
+    position: absolute;
+    bottom: 10px;
+    right: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    width: 550px;
+    background-color: #fff;
+    border-radius: 32px;
+    padding: 18px;
+    box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+}
+
+.control-item {
+    gap: 5px;
+    width: 100%;
+}
+
+input[type="file"],
+input[type="text"],
+select,
+input[type="range"] {
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 24px;
+    background-color: #fff;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:focus,
+select:focus {
+    outline: none;
+    border-color: #4285f4;
+    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.1);
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #4285f4;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: #3367d6;
+}
+
+select {
+    cursor: pointer;
+    appearance: none;
+    padding-right: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23333'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+#font-picker, #name-input, #card-number-input, #date-input {
+    width: 100%;
+}
+
+input[type="file"] {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+#scale-slider-front,
+#scale-slider-back {
+    width: 100%;
+}
+
+.control-item {
+    display: flex;
+    gap: 20px; /* Space between controls inside each container */
+}
+
+#background-select,
+#font-picker {
+    width: 48%; /* Make each take half of the available space */
+}
+
+input[type="text"] {
+    width: 100%;
+}
+
+/* Correct layout adjustments for Upload & Scale, Card Number & Date */
+#controls .control-item {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 16px;
+    margin-top: 16px;
+
+}
+
+#upload-image-front,
+#scale-slider-front {
+    width: 48%; /* Make each take half of the available space */
+}
+
+#upload-image-back,
+#scale-slider-back {
+    width: 48%; /* Make each take half of the available space */
+}
+
+#card-number-input,
+#date-input {
+    width: 48%; /* Make each take half of the available space */
+}
+
+
+.label-images {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 200px;
+}
+
+.label-images label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.upload-btn {
+    padding: 12px 24px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    width: 48%;
+    transition: background-color 0.2s ease;
+}
+
+.upload-btn:hover {
+    background-color: #3367d6;
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+.slider-label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+#scale-slider-front {
+    width: 100%;
+    border-radius: 24px;
+}
+
+#scale-slider-back {
+    width: 100%;
+    border-radius: 24px;
+}
+
+.toggle-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+
+.toggle-text {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #4285f4;
+}
+
+.control-item {
+    margin-bottom: 16px !important;
+    margin-top: 16px !important;
+}
+
+.toggle-container + .control-item {
+    margin-top: 0 !important;
+}
+
+input[type="text"]:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1200px) {
+    #customization-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    #controls {
+        width: 90%;
+        max-width: 550px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #card-front, #card-back {
+        width: 450px;
+        height: auto;
+        aspect-ratio: 1.586/1;
+    }
+
+    #controls {
+        width: 450px;
+        padding: 20px;
+    }
+
+    .control-item {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .upload-btn,
+    input[type="range"],
+    select,
+    input[type="text"] {
+        width: 100%;
+    }
+
+    #background-select,
+    #font-picker {
+        width: 100%;
+    }
+
+    .toggle-container {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: -15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        margin: 10px;
+    }
+
+    #card-front, #card-back {
+        width: 100%;
+        max-width: 450px;
+    }
+
+    #controls {
+        width: 100%;
+        max-width: 450px;
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .toggle-text {
+        font-size: 14px;
+    }
+
+    input[type="text"],
+    select {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+/* iPhone 14 Pro specific adjustments */
+@media screen and (max-width: 393px) {
+    #card-front, #card-back,
+    #controls {
+        width: 350px;
+    }
+
+    .control-item {
+        margin: 10px 0 !important;
+    }
+
+    .upload-btn {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+}

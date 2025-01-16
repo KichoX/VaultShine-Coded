@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Hover Cards</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="#" class="nav-logo">VaultShine</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="customizer.html" class="nav-link">Customiser</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="contact-btn">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    
+   
+    <div class="card-container">
+        <div class="card-wrapper">
+            <div class="card" style="background-image: url('images/americanExpress.jpeg');">
+                <div class="cursive"></div>
+            </div>
+            <div class="card-info">
+                <h1>AMEX Silver</h1>
+                <p>
+                    20 grams
+                    <button class="sound-btn" onclick="playSound()">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                </p>
+                <p>Scratch-resistant with a beautiful mirror finish.</p>
+                <a href="#" class="learn-more">LEARN MORE</a>
+            </div>
+        </div>
+
+        <div class="card-wrapper">
+            <div class="card" style="background-image: url('images/goldCard.jpeg');">
+                <div class="cursive"></div>
+            </div>
+            <div class="card-info">
+                <h1>AMEX Gold</h1>
+                <p>
+                    20 grams
+                    <button class="sound-btn" onclick="playSound()">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                </p>
+                <p>Scratch-resistant with a beautiful mirror finish.</p>
+                <a href="#" class="learn-more">LEARN MORE</a>
+            </div>
+        </div>
+
+        <div class="card-wrapper">
+            <div class="card" style="background-image: url('images/platinumCard.jpeg');">
+                <div class="cursive"></div>
+            </div>
+            <div class="card-info">
+                <h1>AMEX Platinum</h1>
+                <p>
+                    20 grams
+                    <button class="sound-btn" onclick="playSound()">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                </p>
+                <p>Scratch-resistant with a beautiful mirror finish.</p>
+                <a href="#" class="learn-more">LEARN MORE</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
