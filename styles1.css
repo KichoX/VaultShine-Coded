@@ -332,8 +332,8 @@ input[type="text"]:disabled {
     }
 
     #card-front, #card-back {
-        width: 350px;          /* Reduced width for mobile */
-        height: 195px;         /* Reduced height maintaining aspect ratio */
+        width: 382px;          /* New width */
+        height: 212px;         /* Reduced height maintaining aspect ratio */
     }
 
     /* Adjust text sizes for smaller cards */

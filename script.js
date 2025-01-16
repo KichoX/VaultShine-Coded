@@ -265,4 +265,52 @@ document.querySelector("form")?.addEventListener("submit", (e) => {
         alert("Please enter a complete expiry date (MM/YY)");
     }
 });
+
+// Update the scale slider attributes
+scaleSliderFront.setAttribute("min", "0.1");  // Smaller minimum value
+scaleSliderFront.setAttribute("max", "3.0");  // Larger maximum value
+scaleSliderBack.setAttribute("min", "0.1");
+scaleSliderBack.setAttribute("max", "3.0");
+
+// Add touch events for dragging front image
+imageOverlayFront.addEventListener("touchstart", (e) => {
+    if (!uploadedImageFront) return;
+    isDraggingFront = true;
+    startXFront = e.touches[0].clientX - currentXFront;
+    startYFront = e.touches[0].clientY - currentYFront;
+});
+
+document.addEventListener("touchmove", (e) => {
+    if (!isDraggingFront || !uploadedImageFront) return;
+    e.preventDefault(); // Prevent scrolling while dragging
+    currentXFront = e.touches[0].clientX - startXFront;
+    currentYFront = e.touches[0].clientY - startYFront;
+    uploadedImageFront.style.left = `${50 + currentXFront / 4}%`;
+    uploadedImageFront.style.top = `${50 + currentYFront / 4}%`;
+}, { passive: false });
+
+document.addEventListener("touchend", () => {
+    isDraggingFront = false;
+});
+
+// Add touch events for dragging back image
+imageOverlayBack.addEventListener("touchstart", (e) => {
+    if (!uploadedImageBack) return;
+    isDraggingBack = true;
+    startXBack = e.touches[0].clientX - currentXBack;
+    startYBack = e.touches[0].clientY - currentYBack;
+});
+
+document.addEventListener("touchmove", (e) => {
+    if (!isDraggingBack || !uploadedImageBack) return;
+    e.preventDefault(); // Prevent scrolling while dragging
+    currentXBack = e.touches[0].clientX - startXBack;
+    currentYBack = e.touches[0].clientY - startYBack;
+    uploadedImageBack.style.left = `${50 + currentXBack / 4}%`;
+    uploadedImageBack.style.top = `${50 + currentYBack / 4}%`;
+}, { passive: false });
+
+document.addEventListener("touchend", () => {
+    isDraggingBack = false;
+});
   
