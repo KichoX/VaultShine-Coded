@@ -96,29 +96,6 @@ scaleSliderBack.addEventListener("input", () => {
   }
 });
 
-// Enable smooth dragging of the front image
-imageOverlayFront.addEventListener("mousedown", (e) => {
-    if (!uploadedImageFront) return;
-    e.preventDefault(); // Prevent default behavior
-    isDraggingFront = true;
-
-    // Store the initial mouse position
-    const offsetXFront = e.clientX - uploadedImageFront.offsetLeft;
-    const offsetYFront = e.clientY - uploadedImageFront.offsetTop;
-
-    // Update the position of the image based on mouse movement
-    document.addEventListener("mousemove", (e) => {
-        if (!isDraggingFront) return;
-        uploadedImageFront.style.left = `${e.clientX - offsetXFront}px`;
-        uploadedImageFront.style.top = `${e.clientY - offsetYFront}px`;
-    });
-});
-
-// Reset dragging state on mouse up
-document.addEventListener("mouseup", () => {
-    isDraggingFront = false; // Reset dragging state
-});
-
 // Enable smooth dragging of the back image
 imageOverlayBack.addEventListener("mousedown", (e) => {
     if (!uploadedImageBack) return;
@@ -280,6 +257,29 @@ scaleSliderBack.setAttribute("min", "0.1");
 scaleSliderBack.setAttribute("max", "3.0");
 scaleSliderBack.setAttribute("step", "0.001"); // Much smaller step for smoother scaling
 
+
+// Enable smooth dragging of the front image
+imageOverlayFront.addEventListener("mousedown", (e) => {
+    if (!uploadedImageFront) return;
+    e.preventDefault(); // Prevent default behavior
+    isDraggingFront = true;
+
+    // Store the initial mouse position
+    const offsetXFront = e.clientX - uploadedImageFront.offsetLeft;
+    const offsetYFront = e.clientY - uploadedImageFront.offsetTop;
+
+    // Update the position of the image based on mouse movement
+    document.addEventListener("mousemove", (e) => {
+        if (!isDraggingFront) return;
+        uploadedImageFront.style.left = `${e.clientX - offsetXFront}px`;
+        uploadedImageFront.style.top = `${e.clientY - offsetYFront}px`;
+    });
+});
+
+// Reset dragging state on mouse up
+document.addEventListener("mouseup", () => {
+    isDraggingFront = false; // Reset dragging state
+});
 
 // Enable smooth dragging of the front image for touch devices
 imageOverlayFront.addEventListener("touchstart", (e) => {
