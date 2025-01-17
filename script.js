@@ -22,7 +22,6 @@ const showCardDate = document.getElementById("show-card-date");
 let uploadedImageFront = null;
 let uploadedImageBack = null;
 let isDraggingFront = false, isDraggingBack = false;
-let startXFront, startYFront, startXBack, startYBack, currentXFront = 0, currentYFront = 0, currentXBack = 0, currentYBack = 0;
 
 // Update the background images
 backgroundSelect.addEventListener("change", () => {
@@ -98,65 +97,49 @@ scaleSliderBack.addEventListener("input", () => {
 });
 
 // Enable smooth dragging of the front image
-imageOverlayFront.addEventListener("touchstart", (e) => {
+imageOverlayFront.addEventListener("mousedown", (e) => {
     if (!uploadedImageFront) return;
-    e.preventDefault(); // Prevent default touch behavior
+    e.preventDefault(); // Prevent default behavior
     isDraggingFront = true;
-    const touch = e.touches[0];
-    startXFront = touch.clientX - currentXFront;
-    startYFront = touch.clientY - currentYFront;
+
+    // Store the initial mouse position
+    const offsetXFront = e.clientX - uploadedImageFront.offsetLeft;
+    const offsetYFront = e.clientY - uploadedImageFront.offsetTop;
+
+    // Update the position of the image based on mouse movement
+    document.addEventListener("mousemove", (e) => {
+        if (!isDraggingFront) return;
+        uploadedImageFront.style.left = `${e.clientX - offsetXFront}px`;
+        uploadedImageFront.style.top = `${e.clientY - offsetYFront}px`;
+    });
 });
 
-imageOverlayFront.addEventListener("touchmove", (e) => {
-    if (!isDraggingFront || !uploadedImageFront) return;
-    e.preventDefault(); // Prevent scrolling while dragging
-    const touch = e.touches[0];
-    currentXFront = touch.clientX - startXFront;
-    currentYFront = touch.clientY - startYFront;
-
-    // Limit movement within card boundaries
-    const maxMove = 100; // Maximum percentage movement
-    const xMove = Math.max(-maxMove, Math.min(maxMove, currentXFront / 2));
-    const yMove = Math.max(-maxMove, Math.min(maxMove, currentYFront / 2));
-
-    uploadedImageFront.style.transform = `translate(-50%, -50%) scale(${scaleSliderFront.value})`;
-    uploadedImageFront.style.left = `${50 + xMove}%`;
-    uploadedImageFront.style.top = `${50 + yMove}%`;
-});
-
-document.addEventListener("touchend", () => {
-    isDraggingFront = false;
+// Reset dragging state on mouse up
+document.addEventListener("mouseup", () => {
+    isDraggingFront = false; // Reset dragging state
 });
 
 // Enable smooth dragging of the back image
-imageOverlayBack.addEventListener("touchstart", (e) => {
+imageOverlayBack.addEventListener("mousedown", (e) => {
     if (!uploadedImageBack) return;
-    e.preventDefault(); // Prevent default touch behavior
+    e.preventDefault(); // Prevent default behavior
     isDraggingBack = true;
-    const touch = e.touches[0];
-    startXBack = touch.clientX - currentXBack;
-    startYBack = touch.clientY - currentYBack;
+
+    // Store the initial mouse position
+    const offsetXBack = e.clientX - uploadedImageBack.offsetLeft;
+    const offsetYBack = e.clientY - uploadedImageBack.offsetTop;
+
+    // Update the position of the image based on mouse movement
+    document.addEventListener("mousemove", (e) => {
+        if (!isDraggingBack) return;
+        uploadedImageBack.style.left = `${e.clientX - offsetXBack}px`;
+        uploadedImageBack.style.top = `${e.clientY - offsetYBack}px`;
+    });
 });
 
-imageOverlayBack.addEventListener("touchmove", (e) => {
-    if (!isDraggingBack || !uploadedImageBack) return;
-    e.preventDefault(); // Prevent scrolling while dragging
-    const touch = e.touches[0];
-    currentXBack = touch.clientX - startXBack;
-    currentYBack = touch.clientY - startYBack;
-
-    // Limit movement within card boundaries
-    const maxMove = 100; // Maximum percentage movement
-    const xMove = Math.max(-maxMove, Math.min(maxMove, currentXBack / 2));
-    const yMove = Math.max(-maxMove, Math.min(maxMove, currentYBack / 2));
-
-    uploadedImageBack.style.transform = `translate(-50%, -50%) scale(${scaleSliderBack.value})`;
-    uploadedImageBack.style.left = `${50 + xMove}%`;
-    uploadedImageBack.style.top = `${50 + yMove}%`;
-});
-
-document.addEventListener("touchend", () => {
-    isDraggingBack = false;
+// Reset dragging state on mouse up
+document.addEventListener("mouseup", () => {
+    isDraggingBack = false; // Reset dragging state
 });
 
 // Change font style
@@ -297,56 +280,124 @@ scaleSliderBack.setAttribute("min", "0.1");
 scaleSliderBack.setAttribute("max", "3.0");
 scaleSliderBack.setAttribute("step", "0.001"); // Much smaller step for smoother scaling
 
-// Update touch events for better mobile support
+
+// Enable smooth dragging of the front image for touch devices
 imageOverlayFront.addEventListener("touchstart", (e) => {
     if (!uploadedImageFront) return;
-    e.preventDefault();
+    e.preventDefault(); // Prevent default behavior
     isDraggingFront = true;
-    const touch = e.touches[0];
-    startXFront = touch.clientX - currentXFront;
-    startYFront = touch.clientY - currentYFront;
-}, { passive: false });
 
-document.addEventListener("touchmove", (e) => {
-    if (!isDraggingFront || !uploadedImageFront) return;
-    e.preventDefault();
+    // Store the initial touch position
     const touch = e.touches[0];
-    currentXFront = touch.clientX - startXFront;
-    currentYFront = touch.clientY - startYFront;
-    
-    // Limit movement within card boundaries
-    const maxMove = 100; // Maximum percentage movement
-    const xMove = Math.max(-maxMove, Math.min(maxMove, currentXFront / 2));
-    const yMove = Math.max(-maxMove, Math.min(maxMove, currentYFront / 2));
-    
-    uploadedImageFront.style.transform = `translate(-50%, -50%) scale(${scaleSliderFront.value})`;
-    uploadedImageFront.style.left = `${50 + xMove}%`;
-    uploadedImageFront.style.top = `${50 + yMove}%`;
-}, { passive: false });
+    const offsetXFront = touch.clientX - uploadedImageFront.offsetLeft;
+    const offsetYFront = touch.clientY - uploadedImageFront.offsetTop;
 
-// Same updates for back image
+    // Update the position of the image based on touch movement
+    document.addEventListener("touchmove", (e) => {
+        if (!isDraggingFront) return;
+        const touch = e.touches[0];
+        uploadedImageFront.style.left = `${touch.clientX - offsetXFront}px`;
+        uploadedImageFront.style.top = `${touch.clientY - offsetYFront}px`;
+    });
+});
+
+// Enable smooth dragging of the back image for touch devices
 imageOverlayBack.addEventListener("touchstart", (e) => {
     if (!uploadedImageBack) return;
-    e.preventDefault();
+    e.preventDefault(); // Prevent default behavior
     isDraggingBack = true;
-    const touch = e.touches[0];
-    startXBack = touch.clientX - currentXBack;
-    startYBack = touch.clientY - currentYBack;
-}, { passive: false });
 
-document.addEventListener("touchmove", (e) => {
-    if (!isDraggingBack || !uploadedImageBack) return;
-    e.preventDefault();
+    // Store the initial touch position
     const touch = e.touches[0];
-    currentXBack = touch.clientX - startXBack;
-    currentYBack = touch.clientY - startYBack;
-    
-    const maxMove = 100;
-    const xMove = Math.max(-maxMove, Math.min(maxMove, currentXBack / 2));
-    const yMove = Math.max(-maxMove, Math.min(maxMove, currentYBack / 2));
-    
-    uploadedImageBack.style.transform = `translate(-50%, -50%) scale(${scaleSliderBack.value})`;
-    uploadedImageBack.style.left = `${50 + xMove}%`;
-    uploadedImageBack.style.top = `${50 + yMove}%`;
-}, { passive: false });
+    const offsetXBack = touch.clientX - uploadedImageBack.offsetLeft;
+    const offsetYBack = touch.clientY - uploadedImageBack.offsetTop;
+
+    // Update the position of the image based on touch movement
+    document.addEventListener("touchmove", (e) => {
+        if (!isDraggingBack) return;
+        const touch = e.touches[0];
+        uploadedImageBack.style.left = `${touch.clientX - offsetXBack}px`;
+        uploadedImageBack.style.top = `${touch.clientY - offsetYBack}px`;
+    });
+});
+
+// Reset dragging state on touch end
+document.addEventListener("touchend", () => {
+    isDraggingBack = false; // Reset dragging state
+});
+
+// Function to disable editing
+function disableEditing() {
+    // Disable input fields
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        input.disabled = true;
+    });
+
+    // Disable the save button
+    const saveButton = document.getElementById('save-preview');
+    saveButton.disabled = true; // Disable the button
+    saveButton.classList.add('controls-disabled'); // Add the disabled class for styling
+
+    // Disable image modifications
+    imageOverlayFront.style.pointerEvents = 'none';
+    imageOverlayBack.style.pointerEvents = 'none';
+
+    // Add class to change styles
+    const controls = document.getElementById('controls');
+    controls.classList.add('controls-disabled');
+
+    // Show notification
+    const notification = document.createElement('div');
+    notification.id = 'notification';
+    notification.innerHTML = `
+        <h3>Preview saved!</h3>
+        <p>Please take a screenshot.</p>
+        <button id="cancel-edit">Edit Again <i class="fa-solid fa-circle-xmark fa-lg"></i> </button>
+    `;
+    controls.appendChild(notification); // Append to controls
+
+    // Make the notification centered
+    notification.style.position = 'absolute'; // Keep it absolute
+    notification.style.top = '50%'; // Center vertically
+    notification.style.left = '50%'; // Center horizontally
+    notification.style.transform = 'translate(-50%, -50%)'; // Adjust for centering
+    notification.style.zIndex = '2000'; // Ensure it stays on top
+    notification.style.textAlign = 'center'; // Center text inside the notification
+
+    // Add event listener to cancel button
+    const cancelButton = document.getElementById('cancel-edit');
+    cancelButton.addEventListener('click', enableEditing);
+}
+
+// Function to enable editing
+function enableEditing() {
+    // Enable input fields
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        input.disabled = false;
+    });
+
+    // Enable the save button
+    const saveButton = document.getElementById('save-preview');
+    saveButton.disabled = false; // Enable the button
+    saveButton.classList.remove('controls-disabled'); // Remove the disabled class for styling
+
+    // Enable image modifications
+    imageOverlayFront.style.pointerEvents = 'auto';
+    imageOverlayBack.style.pointerEvents = 'auto';
+
+    // Remove class to revert styles
+    const controls = document.getElementById('controls');
+    controls.classList.remove('controls-disabled');
+
+    // Remove notification
+    const notification = document.getElementById('notification');
+    if (notification) {
+        controls.removeChild(notification); // Remove from controls
+    }
+}
+
+// Example function to save preview (you may already have this)
+document.getElementById('save-preview').addEventListener('click', disableEditing);
   
