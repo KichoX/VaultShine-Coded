@@ -314,7 +314,7 @@ input[type="text"]:disabled {
 }
 
 /* Only add this media query for mobile screens */
-@media (min-width: 430px) and (max-width: 768px) {
+@media (max-width: 768px) {
 
     #customization-container {
         flex-direction: column;
@@ -366,5 +366,3 @@ input[type="text"]:disabled {
         width: 95%;
     }
 }
-
-
