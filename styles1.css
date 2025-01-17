@@ -328,17 +328,11 @@ input[type="text"]:disabled {
     width: 60%;
 }
 
+#notification h2 {
+    color: green;
+}
+
 #cancel-edit{
-    /* padding: 12px 24px;
-    background-color: #4285f4;
-    color: white;
-    border: none;
-    border-radius: 24px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    width: 70%;
-    transition: background-color 0.2s ease; */
     border: 2px solid red; /* Red outline */
     background-color: transparent; /* No background color */
     color: red; /* Text color */

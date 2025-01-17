@@ -356,7 +356,7 @@ function disableEditing() {
     const notification = document.createElement('div');
     notification.id = 'notification';
     notification.innerHTML = `
-        <h3>Preview saved!</h3>
+        <h2>Preview saved!</h2>
         <p>Please take a screenshot.</p>
         <button id="cancel-edit">Edit Again <i class="fa-solid fa-circle-xmark fa-lg"></i> </button>
     `;
