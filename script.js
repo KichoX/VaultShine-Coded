@@ -301,6 +301,11 @@ imageOverlayFront.addEventListener("touchstart", (e) => {
     });
 });
 
+// Reset dragging state on touch end
+document.addEventListener("touchend", () => {
+    isDraggingFront = false; // Reset dragging state
+});
+
 // Enable smooth dragging of the back image for touch devices
 imageOverlayBack.addEventListener("touchstart", (e) => {
     if (!uploadedImageBack) return;
