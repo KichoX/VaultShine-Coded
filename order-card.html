@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Card</title>
+    <link rel="stylesheet" href="styles1.css"> <!-- Link to your main CSS file -->
+    <link rel="stylesheet" href="order-card.css"> <!-- Link to your order card CSS file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script> <!-- Font Awesome -->
+    <script src="order-card.js" defer></script> <!-- Link to your new JS file -->
+</head>
+<body>
+    <div id="order-card-section">
+        <h1>Order Your Card</h1>
+        <div id="controls">
+            <form id="order-card-form">
+                <div class="control-item">
+                    <input type="text" id="name" placeholder="Name" required>
+                    <input type="text" id="surname" placeholder="Surname" required>
+                </div>
+                <div class="control-item">
+                    <input type="text" id="phone" placeholder="Phone" required>
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="control-item">
+                    <input type="text" id="address" placeholder="Address" required>
+                    <select id="city" required>
+                        <option value="">Select City</option>
+                        <option value="Skopje">Skopje</option>
+                        <option value="Bitola">Bitola</option>
+                        <option value="Ohrid">Ohrid</option>
+                        <option value="Tetovo">Tetovo</option>
+                        <option value="Kumanovo">Kumanovo</option>
+                        <!-- Add more cities as needed -->
+                    </select>
+                </div>
+                <div class="control-item">
+                    <select id="metal-color" required>
+                        <option value="">Select Metal Color</option>
+                        <option value="Gold">Gold</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Rose Gold">Rose Gold</option>
+                    </select>
+                    <div class="custom-number-input">
+                        <button type="button" id="decrement-quantity">-</button>
+                        <input type="number" id="quantity" min="1" value="1" required>
+                        <button type="button" id="increment-quantity">+</button>
+                    </div>
+                </div>
+                <div class="control-item">
+                    <label class="toggle-container">
+                        <input type="checkbox" id="preview-toggle">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-text">Self-Designed</span>
+                    </label>
+                    <label class="toggle-container">
+                        <input type="checkbox" id="designer-made-toggle">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-text">Designer Made</span>
+                    </label>
+                </div>
+                
+                <div class="control-item" id="design-attachment" style="display: none;">
+                    <div class="design-input">
+                        <input type="file" id="front-design" accept="image/*" style="display: none;">
+                        <button class="upload-btn" id="upload-btn-front">
+                            Attach Original Design for Front <i class="fas fa-paperclip"></i>
+                        </button>
+                        <span id="attached-front-design-name" style="display: block; margin-top: 10px;"></span> <!-- To display the front file name -->
+                    </div>
+                    <div class="design-input">
+                        <input type="file" id="back-design" accept="image/*" style="display: none;">
+                        <button class="upload-btn" id="upload-btn-back">
+                            Attach Original Design for Back <i class="fas fa-paperclip"></i>
+                        </button>
+                        <span id="attached-back-design-name" style="display: block; margin-top: 10px;"></span> <!-- To display the back file name -->
+                    </div>
+                    
+                </div>
+                <div class="design-input">
+                        <input type="file" id="attach-preview-file" accept="image/*" style="display: none;">
+                        <button class="upload-btn" id="attach-preview-btn">
+                            Attach Your Preview <i class="fas fa-paperclip"></i>
+                        </button>
+                        <span id="attached-preview-name" style="display: block; margin-top: 10px;"></span> <!-- To display the file name -->
+                    </div>
+                <button type="submit" id="submit-order">Submit Order</button>
+            </form>
+            <div id="order-notification"></div>
+        </div>
+    </div>
+</body>
+</html>
