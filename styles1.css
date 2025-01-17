@@ -26,8 +26,8 @@ h1 {
 }
 
 #card-front, #card-back {
-    width: 450px;
-    height: 250px;
+    width: 440px;
+    height: 278px;
     border-radius: 16px;
     overflow: hidden;
     position: relative;
@@ -258,6 +258,13 @@ input[type="text"] {
     text-align: center;
 }
 
+.recomended-label{
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+    padding-top: 40px;
+}
+
 #scale-slider-front {
     width: 100%;
     border-radius: 24px;
@@ -374,7 +381,7 @@ input[type="text"]:disabled {
 
     #card-front, #card-back {
         width: 382px;          /* New width */
-        height: 212px;         /* Reduced height maintaining aspect ratio */
+        height: 241.35px;         /* Reduced height maintaining aspect ratio */
     }
 
     #name-text {
