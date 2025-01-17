@@ -98,43 +98,65 @@ scaleSliderBack.addEventListener("input", () => {
 });
 
 // Enable smooth dragging of the front image
-imageOverlayFront.addEventListener("mousedown", (e) => {
-  if (!uploadedImageFront) return;
-  isDraggingFront = true;
-  startXFront = e.clientX - currentXFront;
-  startYFront = e.clientY - currentYFront;
+imageOverlayFront.addEventListener("touchstart", (e) => {
+    if (!uploadedImageFront) return;
+    e.preventDefault(); // Prevent default touch behavior
+    isDraggingFront = true;
+    const touch = e.touches[0];
+    startXFront = touch.clientX - currentXFront;
+    startYFront = touch.clientY - currentYFront;
 });
 
-document.addEventListener("mousemove", (e) => {
-  if (!isDraggingFront || !uploadedImageFront) return;
-  currentXFront = e.clientX - startXFront;
-  currentYFront = e.clientY - startYFront;
-  uploadedImageFront.style.left = `${50 + currentXFront / 4}%`;
-  uploadedImageFront.style.top = `${50 + currentYFront / 4}%`;
+imageOverlayFront.addEventListener("touchmove", (e) => {
+    if (!isDraggingFront || !uploadedImageFront) return;
+    e.preventDefault(); // Prevent scrolling while dragging
+    const touch = e.touches[0];
+    currentXFront = touch.clientX - startXFront;
+    currentYFront = touch.clientY - startYFront;
+
+    // Limit movement within card boundaries
+    const maxMove = 100; // Maximum percentage movement
+    const xMove = Math.max(-maxMove, Math.min(maxMove, currentXFront / 2));
+    const yMove = Math.max(-maxMove, Math.min(maxMove, currentYFront / 2));
+
+    uploadedImageFront.style.transform = `translate(-50%, -50%) scale(${scaleSliderFront.value})`;
+    uploadedImageFront.style.left = `${50 + xMove}%`;
+    uploadedImageFront.style.top = `${50 + yMove}%`;
 });
 
-document.addEventListener("mouseup", () => {
-  isDraggingFront = false;
+document.addEventListener("touchend", () => {
+    isDraggingFront = false;
 });
 
 // Enable smooth dragging of the back image
-imageOverlayBack.addEventListener("mousedown", (e) => {
-  if (!uploadedImageBack) return;
-  isDraggingBack = true;
-  startXBack = e.clientX - currentXBack;
-  startYBack = e.clientY - currentYBack;
+imageOverlayBack.addEventListener("touchstart", (e) => {
+    if (!uploadedImageBack) return;
+    e.preventDefault(); // Prevent default touch behavior
+    isDraggingBack = true;
+    const touch = e.touches[0];
+    startXBack = touch.clientX - currentXBack;
+    startYBack = touch.clientY - currentYBack;
 });
 
-document.addEventListener("mousemove", (e) => {
-  if (!isDraggingBack || !uploadedImageBack) return;
-  currentXBack = e.clientX - startXBack;
-  currentYBack = e.clientY - startYBack;
-  uploadedImageBack.style.left = `${50 + currentXBack / 4}%`;
-  uploadedImageBack.style.top = `${50 + currentYBack / 4}%`;
+imageOverlayBack.addEventListener("touchmove", (e) => {
+    if (!isDraggingBack || !uploadedImageBack) return;
+    e.preventDefault(); // Prevent scrolling while dragging
+    const touch = e.touches[0];
+    currentXBack = touch.clientX - startXBack;
+    currentYBack = touch.clientY - startYBack;
+
+    // Limit movement within card boundaries
+    const maxMove = 100; // Maximum percentage movement
+    const xMove = Math.max(-maxMove, Math.min(maxMove, currentXBack / 2));
+    const yMove = Math.max(-maxMove, Math.min(maxMove, currentYBack / 2));
+
+    uploadedImageBack.style.transform = `translate(-50%, -50%) scale(${scaleSliderBack.value})`;
+    uploadedImageBack.style.left = `${50 + xMove}%`;
+    uploadedImageBack.style.top = `${50 + yMove}%`;
 });
 
-document.addEventListener("mouseup", () => {
-  isDraggingBack = false;
+document.addEventListener("touchend", () => {
+    isDraggingBack = false;
 });
 
 // Change font style
