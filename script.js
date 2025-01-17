@@ -266,13 +266,14 @@ document.querySelector("form")?.addEventListener("submit", (e) => {
     }
 });
 
-// Update the scale slider attributes
-scaleSliderFront.setAttribute("min", "0.05");  // Smaller minimum
-scaleSliderFront.setAttribute("max", "2.0");   // Reduced maximum
-scaleSliderFront.setAttribute("step", "0.05"); // Finer control
-scaleSliderBack.setAttribute("min", "0.05");
-scaleSliderBack.setAttribute("max", "2.0");
-scaleSliderBack.setAttribute("step", "0.05");
+// Update the scale slider attributes for much smoother scaling
+scaleSliderFront.setAttribute("min", "0.1");
+scaleSliderFront.setAttribute("max", "3.0");
+scaleSliderFront.setAttribute("step", "0.001"); // Much smaller step for smoother scaling
+
+scaleSliderBack.setAttribute("min", "0.1");
+scaleSliderBack.setAttribute("max", "3.0");
+scaleSliderBack.setAttribute("step", "0.001"); // Much smaller step for smoother scaling
 
 // Update touch events for better mobile support
 imageOverlayFront.addEventListener("touchstart", (e) => {
