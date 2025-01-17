@@ -336,7 +336,6 @@ input[type="text"]:disabled {
         height: 212px;         /* Reduced height maintaining aspect ratio */
     }
 
-    /* Adjust text sizes for smaller cards */
     #name-text {
         font-size: 16px;
         bottom: 8px;
@@ -356,13 +355,16 @@ input[type="text"]:disabled {
     }
 
     .upload-btn {
-        width: 65%;
+        width: 43%;
+    }
+
+    #slider-container {
+        width: 60%;
     }
 
     #card-number-input {
         width: 95%;
     }
-
 }
 
 
