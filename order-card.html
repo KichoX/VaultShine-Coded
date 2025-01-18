@@ -57,6 +57,19 @@
                 </div>
                 <div class="control-item">
                     <label class="toggle-container">
+                        <input type="checkbox" id="premade-toggle" checked>
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-text">Premade Design</span>
+                    </label>
+                    <select id="premade-design" required>
+                        <option value="" disabled>Select Premade Design</option>
+                        <option value="Gold">Amex</option>
+                        <option value="Silver">Millionaires Club</option>
+                        <option value="Rose Gold">OFF White</option>
+                    </select>
+                </div>
+                <div class="control-item">
+                    <label class="toggle-container">
                         <input type="checkbox" id="preview-toggle">
                         <span class="toggle-slider"></span>
                         <span class="toggle-text">Self-Designed</span>
@@ -68,6 +81,15 @@
                     </label>
                 </div>
                 
+                
+                <div class="design-input">
+                        <input type="file" id="attach-preview-file" accept="image/*" style="display: none;">
+                        <button class="upload-btn" id="attach-preview-btn">
+                            Attach Your Preview <i class="fas fa-paperclip"></i>
+                        </button>
+                        <span id="attached-preview-name" style="display: block; margin-top: 10px;"></span> <!-- To display the file name -->
+                </div>
+
                 <div class="control-item" id="design-attachment" style="display: none;">
                     <div class="design-input">
                         <input type="file" id="front-design" accept="image/*" style="display: none;">
@@ -85,13 +107,6 @@
                     </div>
                     
                 </div>
-                <div class="design-input">
-                        <input type="file" id="attach-preview-file" accept="image/*" style="display: none;">
-                        <button class="upload-btn" id="attach-preview-btn">
-                            Attach Your Preview <i class="fas fa-paperclip"></i>
-                        </button>
-                        <span id="attached-preview-name" style="display: block; margin-top: 10px;"></span> <!-- To display the file name -->
-                    </div>
                 <button type="submit" id="submit-order">Submit Order</button>
             </form>
             <div id="order-notification"></div>

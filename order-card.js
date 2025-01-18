@@ -104,16 +104,64 @@ document.getElementById('designer-made-toggle').addEventListener('change', funct
     }
 });
 
-// Increment quantity
-document.getElementById('increment-quantity').addEventListener('click', function() {
-    const quantityInput = document.getElementById('quantity');
-    quantityInput.value = parseInt(quantityInput.value) + 1; // Increment quantity
-});
+// Set initial state for toggles and dropdown
+document.addEventListener('DOMContentLoaded', function() {
+    const premadeDesignToggle = document.getElementById('premade-toggle');
+    const designerMadeToggle = document.getElementById('designer-made-toggle');
+    const selfDesignedToggle = document.getElementById('preview-toggle');
+    const premadeDesignDropdown = document.getElementById('premade-design');
+    const attachPreviewBtn = document.getElementById('attach-preview-btn');
+    const designAttachment = document.getElementById('design-attachment');
 
-// Decrement quantity
-document.getElementById('decrement-quantity').addEventListener('click', function() {
-    const quantityInput = document.getElementById('quantity');
-    if (quantityInput.value > 1) {
-        quantityInput.value = parseInt(quantityInput.value) - 1; // Decrement quantity
-    }
+    // Set initial state for toggles and dropdown
+    premadeDesignToggle.checked = true; // Set Premade Design toggle to YES by default
+    designerMadeToggle.disabled = true; // Disable Designer Made toggle
+    selfDesignedToggle.disabled = true; // Disable Self-Designed toggle
+    attachPreviewBtn.style.display = 'none'; // Hide Attach Preview button
+    premadeDesignDropdown.disabled = false; // Enable dropdown by default
+
+    // Event listener for the Premade Design toggle
+    premadeDesignToggle.addEventListener('change', function() {
+        if (this.checked) {
+            designerMadeToggle.checked = false; // Uncheck Designer Made toggle
+            selfDesignedToggle.checked = false; // Uncheck Self-Designed toggle
+            designerMadeToggle.disabled = true; // Disable Designer Made toggle
+            selfDesignedToggle.disabled = true; // Disable Self-Designed toggle
+            attachPreviewBtn.style.display = 'none'; // Hide Attach Preview button
+            designAttachment.style.display = 'none'; // Hide design attachment inputs
+            premadeDesignDropdown.disabled = false; // Enable dropdown
+        } else {
+            designerMadeToggle.disabled = false; // Enable Designer Made toggle
+            selfDesignedToggle.disabled = false; // Enable Self-Designed toggle
+            premadeDesignDropdown.disabled = true; // Disable dropdown
+            attachPreviewBtn.style.display = 'block'; // Show Attach Preview button
+        }
+    });
+
+    // Event listener for the Self-Designed toggle
+    selfDesignedToggle.addEventListener('change', function() {
+        if (this.checked) {
+            premadeDesignToggle.checked = false; // Uncheck Premade Design toggle
+            designerMadeToggle.checked = false; // Uncheck Designer Made toggle
+            designerMadeToggle.disabled = true; // Disable Designer Made toggle
+            attachPreviewBtn.style.display = 'block'; // Show Attach Preview button
+            designAttachment.style.display = 'flex'; // Show design attachment inputs
+        } else {
+            designerMadeToggle.disabled = false; // Enable Designer Made toggle if Self-Designed is unchecked
+            designAttachment.style.display = 'none'; // Hide design attachment inputs if Self-Designed is unchecked
+        }
+    });
+
+    // Event listener for the Designer Made toggle
+    designerMadeToggle.addEventListener('change', function() {
+        if (this.checked) {
+            premadeDesignToggle.checked = false; // Uncheck Premade Design toggle
+            selfDesignedToggle.checked = false; // Uncheck Self-Designed toggle
+            selfDesignedToggle.disabled = true; // Disable Self-Designed toggle
+            attachPreviewBtn.style.display = 'block'; // Show Attach Preview button
+            designAttachment.style.display = 'none'; // Hide design attachment inputs
+        } else {
+            selfDesignedToggle.disabled = false; // Enable Self-Designed toggle if Designer Made is unchecked
+        }
+    });
 });
