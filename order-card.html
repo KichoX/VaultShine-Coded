@@ -44,7 +44,7 @@
                 </div>
                 <div class="control-item">
                     <select id="metal-color" required>
-                        <option value="">Select Metal Color</option>
+                        <option value="">Card Color</option>
                         <option value="Gold">Gold</option>
                         <option value="Silver">Silver</option>
                         <option value="Rose Gold">Rose Gold</option>
@@ -107,7 +107,10 @@
                     </div>
                     
                 </div>
-                <button type="submit" id="submit-order">Submit Order</button>
+                <div class="control-item" style="display: flex; justify-content: space-between; width: 100%;">
+                    <span id="total-amount">Total Amount: 0 MKD</span>
+                    <button type="submit" id="submit-order">Submit Order</button>
+                </div>
             </form>
             <div id="order-notification"></div>
         </div>

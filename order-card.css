@@ -31,8 +31,20 @@ h1 {
 
 .control-item {
     display: flex;
-    gap: 20px; /* Space between controls inside each container */
-    margin-bottom: 16px; /* Space between rows */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+#total-amount {
+    flex: 1;
+    text-align: left;
+}
+
+#submit-order {
+    flex-shrink: 0;
+    margin-left: 20px;
 }
 
 #city{

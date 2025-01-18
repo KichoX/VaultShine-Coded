@@ -112,6 +112,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const premadeDesignDropdown = document.getElementById('premade-design');
     const attachPreviewBtn = document.getElementById('attach-preview-btn');
     const designAttachment = document.getElementById('design-attachment');
+    const totalAmountDisplay = document.getElementById('total-amount');
+    const metalColorSelect = document.getElementById('metal-color');
 
     // Set initial state for toggles and dropdown
     premadeDesignToggle.checked = true; // Set Premade Design toggle to YES by default
@@ -125,8 +127,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (this.checked) {
             designerMadeToggle.checked = false; // Uncheck Designer Made toggle
             selfDesignedToggle.checked = false; // Uncheck Self-Designed toggle
-            designerMadeToggle.disabled = true; // Disable Designer Made toggle
-            selfDesignedToggle.disabled = true; // Disable Self-Designed toggle
+            designerMadeToggle.disabled = false; // Disable Designer Made toggle
+            selfDesignedToggle.disabled = false; // Disable Self-Designed toggle
             attachPreviewBtn.style.display = 'none'; // Hide Attach Preview button
             designAttachment.style.display = 'none'; // Hide design attachment inputs
             premadeDesignDropdown.disabled = false; // Enable dropdown
@@ -143,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (this.checked) {
             premadeDesignToggle.checked = false; // Uncheck Premade Design toggle
             designerMadeToggle.checked = false; // Uncheck Designer Made toggle
-            designerMadeToggle.disabled = true; // Disable Designer Made toggle
+            designerMadeToggle.disabled = false; // Disable Designer Made toggle
             attachPreviewBtn.style.display = 'block'; // Show Attach Preview button
             designAttachment.style.display = 'flex'; // Show design attachment inputs
         } else {
@@ -157,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (this.checked) {
             premadeDesignToggle.checked = false; // Uncheck Premade Design toggle
             selfDesignedToggle.checked = false; // Uncheck Self-Designed toggle
-            selfDesignedToggle.disabled = true; // Disable Self-Designed toggle
+            selfDesignedToggle.disabled = false; // Disable Self-Designed toggle
             attachPreviewBtn.style.display = 'block'; // Show Attach Preview button
             designAttachment.style.display = 'none'; // Hide design attachment inputs
         } else {
@@ -169,20 +171,64 @@ document.addEventListener('DOMContentLoaded', function() {
     const decrementBtn = document.getElementById('decrement-btn');
     const numberInput = document.getElementById('number-input');
 
-    // Ensure the input is initialized to 1
+    // Initialize input value
     numberInput.value = 1;
 
-    // Increment button functionality
+    // Function to calculate total amount
+    function calculateTotal() {
+        let basePrice = 0;
+        const quantity = parseInt(numberInput.value, 10);
+
+        // Determine base price based on metal color
+        switch (metalColorSelect.value) {
+            case 'Gold':
+                basePrice = 2999;
+                break;
+            case 'Silver':
+            case 'Rose Gold':
+                basePrice = 2499;
+                break;
+            default:
+                basePrice = 0; // Default case if no color is selected
+                break;
+        }
+
+        // Only add additional costs if a color is selected
+        if (basePrice > 0) {
+            // Add additional costs based on design type
+            if (selfDesignedToggle.checked) {
+                basePrice += 600;
+            } else if (designerMadeToggle.checked) {
+                basePrice += 1000;
+            }
+        }
+
+        // Calculate total amount
+        const totalAmount = basePrice * quantity;
+        totalAmountDisplay.textContent = `Total Amount: ${totalAmount} MKD`;
+    }
+
+    // Event listeners for changes
     incrementBtn.addEventListener('click', function() {
         let currentValue = parseInt(numberInput.value, 10);
         numberInput.value = currentValue + 1; // Increment the value
+        calculateTotal(); // Recalculate total
     });
 
-    // Decrement button functionality
     decrementBtn.addEventListener('click', function() {
         let currentValue = parseInt(numberInput.value, 10);
         if (currentValue > 1) {
             numberInput.value = currentValue - 1; // Decrement the value
+            calculateTotal(); // Recalculate total
         }
     });
+
+    // Event listeners for toggles and dropdown
+    premadeDesignToggle.addEventListener('change', calculateTotal);
+    designerMadeToggle.addEventListener('change', calculateTotal);
+    selfDesignedToggle.addEventListener('change', calculateTotal);
+    metalColorSelect.addEventListener('change', calculateTotal);
+
+    // Initial calculation
+    calculateTotal();
 });
