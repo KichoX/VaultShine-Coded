@@ -232,5 +232,8 @@ button:hover {
     #design-attachment .upload-btn {
         width: 165px;
     }
-    
+
+    #submit-order {
+        margin-left: 0;
+    }
 }
