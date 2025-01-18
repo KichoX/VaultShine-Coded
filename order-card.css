@@ -74,6 +74,10 @@ button:hover {
     display: none; /* Initially hidden */
 }
 
+#design-attachment .upload-btn {
+    width: 265px;
+}
+
 /* Custom styles for the number input */
 .custom-number-input {
  
@@ -198,14 +202,23 @@ button:hover {
     }
 
     .toggle-slider {
-        width: 65px;
+        width: 61px;
+    }
+
+    #designed{
+        width: 54px;
     }
 
     .toggle-container{
-        gap: 0;
+        gap: 0px;
     }
 
     #premade-design {
         height: 55px
     }
+
+    #design-attachment .upload-btn {
+        width: 165px;
+    }
+    
 }

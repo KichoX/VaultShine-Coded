@@ -50,9 +50,9 @@
                         <option value="Rose Gold">Rose Gold</option>
                     </select>
                     <div class="custom-number-input">
-                        <button type="button" id="decrement-quantity">-</button>
-                        <input type="number" id="quantity" min="1" value="1" required>
-                        <button type="button" id="increment-quantity">+</button>
+                        <button id="decrement-btn">-</button>
+                        <input type="number" id="number-input" value="1" min="1" />
+                        <button id="increment-btn">+</button>
                     </div>
                 </div>
                 <div class="control-item">
@@ -62,7 +62,7 @@
                         <span class="toggle-text">Premade Design</span>
                     </label>
                     <select id="premade-design" required>
-                        <option value="" disabled>Select Premade Design</option>
+                        <option value="" disabled>Select Design</option>
                         <option value="Gold">Amex</option>
                         <option value="Silver">Millionaires Club</option>
                         <option value="Rose Gold">OFF White</option>
@@ -71,12 +71,12 @@
                 <div class="control-item">
                     <label class="toggle-container">
                         <input type="checkbox" id="preview-toggle">
-                        <span class="toggle-slider"></span>
-                        <span class="toggle-text">Self-Designed</span>
+                        <span id="designed" class="toggle-slider"></span>
+                        <span class="toggle-text">Self Designed</span>
                     </label>
                     <label class="toggle-container">
                         <input type="checkbox" id="designer-made-toggle">
-                        <span class="toggle-slider"></span>
+                        <span id="designed" class="toggle-slider"></span>
                         <span class="toggle-text">Designer Made</span>
                     </label>
                 </div>
@@ -94,14 +94,14 @@
                     <div class="design-input">
                         <input type="file" id="front-design" accept="image/*" style="display: none;">
                         <button class="upload-btn" id="upload-btn-front">
-                            Attach Original Design for Front <i class="fas fa-paperclip"></i>
+                            Attach Original Front Design  <i class="fas fa-paperclip"></i>
                         </button>
                         <span id="attached-front-design-name" style="display: block; margin-top: 10px;"></span> <!-- To display the front file name -->
                     </div>
                     <div class="design-input">
                         <input type="file" id="back-design" accept="image/*" style="display: none;">
                         <button class="upload-btn" id="upload-btn-back">
-                            Attach Original Design for Back <i class="fas fa-paperclip"></i>
+                            Attach Original Back Design  <i class="fas fa-paperclip"></i>
                         </button>
                         <span id="attached-back-design-name" style="display: block; margin-top: 10px;"></span> <!-- To display the back file name -->
                     </div>

@@ -164,4 +164,25 @@ document.addEventListener('DOMContentLoaded', function() {
             selfDesignedToggle.disabled = false; // Enable Self-Designed toggle if Designer Made is unchecked
         }
     });
+
+    const incrementBtn = document.getElementById('increment-btn');
+    const decrementBtn = document.getElementById('decrement-btn');
+    const numberInput = document.getElementById('number-input');
+
+    // Ensure the input is initialized to 1
+    numberInput.value = 1;
+
+    // Increment button functionality
+    incrementBtn.addEventListener('click', function() {
+        let currentValue = parseInt(numberInput.value, 10);
+        numberInput.value = currentValue + 1; // Increment the value
+    });
+
+    // Decrement button functionality
+    decrementBtn.addEventListener('click', function() {
+        let currentValue = parseInt(numberInput.value, 10);
+        if (currentValue > 1) {
+            numberInput.value = currentValue - 1; // Decrement the value
+        }
+    });
 });
