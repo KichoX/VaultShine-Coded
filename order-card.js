@@ -114,6 +114,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const designAttachment = document.getElementById('design-attachment');
     const totalAmountDisplay = document.getElementById('total-amount');
     const metalColorSelect = document.getElementById('metal-color');
+    const submitOrderButton = document.getElementById('submit-order');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmName = document.getElementById('confirm-name');
+    const confirmSurname = document.getElementById('confirm-surname');
+    const confirmEmail = document.getElementById('confirm-email'); // Assuming you have an email field
+    const confirmPhone = document.getElementById('confirm-phone'); // Assuming you have a phone field
+    const confirmAddress = document.getElementById('confirm-address');
+    const confirmCity = document.getElementById('confirm-city');
+    const confirmColor = document.getElementById('confirm-color');
+    const confirmQuantity = document.getElementById('confirm-quantity');
+    const confirmDesign = document.getElementById('confirm-design');
+    const confirmDesignName = document.getElementById('confirm-design-name');
+    const confirmDesignNameValue = document.getElementById('confirm-design-name-value');
+    const closeConfirmationButton = document.getElementById('close-confirmation');
 
     // Set initial state for toggles and dropdown
     premadeDesignToggle.checked = true; // Set Premade Design toggle to YES by default
@@ -231,4 +245,54 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial calculation
     calculateTotal();
+
+    // Event listener for the submit order button
+    submitOrderButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Populate the confirmation summary
+        confirmName.textContent = document.getElementById('name').value;
+        confirmSurname.textContent = document.getElementById('surname').value;
+        confirmEmail.textContent = document.getElementById('email').value; // Assuming you have an email input
+        confirmPhone.textContent = document.getElementById('phone').value; // Assuming you have a phone input
+        confirmAddress.textContent = document.getElementById('address').value;
+        confirmCity.textContent = document.getElementById('city').value;
+        confirmColor.textContent = metalColorSelect.value;
+        confirmQuantity.textContent = document.getElementById('number-input').value; // Assuming you have a quantity input
+
+        // Determine design type and display appropriate information
+        if (premadeDesignToggle.checked) {
+            confirmDesign.textContent = "Premade Design";
+            
+            // Get the selected design name from the dropdown
+            const selectedDesign = document.getElementById('premade-design').options[document.getElementById('premade-design').selectedIndex].text;
+            
+            // Set the design name with the prefix in the designated span
+            confirmDesignNameValue.textContent = selectedDesign; // Set the selected design name
+            confirmDesignName.style.display = "block"; // Show design name
+        } else if (selfDesignedToggle.checked) {
+            confirmDesign.textContent = "Self Designed";
+            confirmDesignName.style.display = "none"; // Hide design name for self-designed
+        } else if (designerMadeToggle.checked) {
+            confirmDesign.textContent = "Designer Made";
+            confirmDesignName.style.display = "none"; // Hide design name for designer-made
+        }
+
+        // Show the confirmation modal and blur the form
+        confirmationModal.style.display = 'flex';
+    });
+
+    // Close confirmation modal functionality
+    closeConfirmationButton.addEventListener('click', function() {
+        confirmationModal.style.display = 'none';
+        document.body.style.filter = 'none'; // Remove blur from background
+    });
+
+    // Confirm order button functionality
+    document.getElementById('confirm-order').addEventListener('click', function() {
+        // Logic to finalize the order can be added here
+        alert("Order confirmed!"); // Placeholder for order confirmation logic
+        confirmationModal.style.display = 'none'; // Close the modal
+        document.body.style.filter = 'none'; // Remove blur from background
+    });
 });

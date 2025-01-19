@@ -63,9 +63,9 @@
                     </label>
                     <select id="premade-design" required>
                         <option value="" disabled>Select Design</option>
-                        <option value="Gold">Amex</option>
-                        <option value="Silver">Millionaires Club</option>
-                        <option value="Rose Gold">OFF White</option>
+                        <option>Amex</option>
+                        <option>Millionaires Club</option>
+                        <option>OFF White</option>
                     </select>
                 </div>
                 <div class="control-item">
@@ -116,6 +116,30 @@
                 </div>
             </form>
             <div id="order-notification"></div>
+        </div>
+    </div>
+
+    <!-- Confirmation Notification Modal -->
+    <div id="confirmation-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Order Confirmation</h2>
+            <div id="confirmation-summary">
+                <p><strong>Name:</strong> <span id="confirm-name"></span></p>
+                <p><strong>Surname:</strong> <span id="confirm-surname"></span></p>
+                <p><strong>Email:</strong> <span id="confirm-email"></span></p>
+                <p><strong>Phone:</strong> <span id="confirm-phone"></span></p>
+                <p><strong>Address:</strong> <span id="confirm-address"></span></p>
+                <p><strong>City:</strong> <span id="confirm-city"></span></p>
+                <p><strong>Card Color:</strong> <span id="confirm-color"></span></p>
+                <p><strong>Quantity:</strong> <span id="confirm-quantity"></span></p>
+                <p><strong>Design Type:</strong> <span id="confirm-design"></span></p>
+                <p id="confirm-design-name" style="display: none;">
+                    <strong>Design Name:</strong> <span id="confirm-design-name-value"></span>
+                </p>
+                <p><strong>Total Amount:</strong> <span id="amount-value">0 MKD</span></p>
+            </div>
+            <button id="confirm-order">Confirm and Order</button>
+            <button id="close-confirmation">Close</button>
         </div>
     </div>
 </body>
