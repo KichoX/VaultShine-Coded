@@ -225,7 +225,7 @@ button:hover {
 
 @media (max-width: 768px) {
   #controls {
-    width: 350px;
+    width: 100%;
     padding: 15px;
     margin: 0 auto;
   }
@@ -267,6 +267,8 @@ button:hover {
   .custom-number-input {
     width: auto;
     justify-content: flex-end;
+    gap: 0;
+    margin: 0;
   }
 
   .custom-number-input button {
@@ -350,7 +352,6 @@ button:hover {
   /* Adjust spacing for the entire form */
   #order-card-section {
     gap: 20px;
-    padding: 15px;
   }
 
   h1 {
