@@ -522,6 +522,7 @@ button {
   padding: 9px 9px; /* Padding for the input */
   border: 1px solid #e0e0e0; /* Border for the input */
   border-radius: 24px;
+  padding-right: 20px;
 }
 
 .toggle-container input[type="checkbox"] {
@@ -592,6 +593,17 @@ button {
   height: 45px;
 }
 
+#amount-save{
+    display: flex; 
+    justify-content: space-between; 
+    width: 100%; 
+    align-items: center;
+}
+
+#amount-save .save-button{
+    width: 48%;
+  }
+
 @media (max-width: 768px) {
   #controls {
     width: 350px;
@@ -616,7 +628,13 @@ button {
 
   .toggle-container {
     gap: 0px;
+    padding-right: 0;
   }
+
+  .toggle-text{
+    padding-left: 0;
+  }
+
 
   #premade-design {
     height: 55px;
@@ -628,6 +646,18 @@ button {
 
   #submit-order {
     margin-left: 0;
+  }
+
+  #amount-save{
+    display: block;
+  }
+
+  #amount-save .save-button{
+    width: 100%;
+  }
+
+  #total-amount {
+    padding-bottom: 20px;
   }
 }
 
@@ -652,4 +682,45 @@ button {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: left;
   width: 300px; /* Set a width for the modal */
+}
+
+#total-amount {
+    position: relative;
+}
+
+.fa-circle-info {
+    cursor: help;
+    margin-left: 8px;
+    color: #666;
+}
+
+#price-breakdown {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 240px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.breakdown-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #ddd;
+    font-weight: bold;
+    color: #333;
 }

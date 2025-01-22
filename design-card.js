@@ -22,12 +22,13 @@ const showCardDate = document.getElementById("show-card-date");
 const premadeToggle = document.getElementById("premade-toggle"); // The toggle for using premade designs
 const selfDesignedToggle = document.getElementById("preview-toggle"); // Self Designed toggle
 const designerMadeToggle = document.getElementById("designer-made-toggle"); // Designer Made toggle
+const totalAmountDisplay = document.getElementById("amount-value");
+const numberInput = document.getElementById("quantity"); // Note: You'll need to add this input to your HTML
 
 let uploadedImageFront = null;
 let uploadedImageBack = null;
 let isDraggingFront = false,
   isDraggingBack = false;
-
 // Update the background images
 function updateBackground() {
   const selectedValue = backgroundSelect.value;
@@ -542,3 +543,109 @@ document
 
 // Initialize the state on page load
 handleToggles(new Event("change"));
+
+// Add this function after calculateTotal()
+function updatePriceBreakdown() {
+  const tooltip = document.getElementById("price-breakdown");
+  let breakdownHTML = "";
+
+  // Add base price if color is selected
+  if (backgroundSelect.value) {
+    const basePrice = backgroundSelect.value === "gold" ? 2999 : 2499;
+    breakdownHTML += `<div class="breakdown-item">
+            <span>${
+              backgroundSelect.value.charAt(0).toUpperCase() +
+              backgroundSelect.value.slice(1)
+            } Color</span>
+            <span>${basePrice} MKD</span>
+        </div>`;
+
+        // Add design costs if applicable
+        if (premadeToggle.checked) {
+            breakdownHTML += `<div class="breakdown-item">
+                <span>+ Premade Design</span>
+                <span style="color: #4CAF50">+0 MKD</span>
+            </div>`;
+        } else if (selfDesignedToggle.checked) {
+            breakdownHTML += `<div class="breakdown-item">
+                <span>+ Self Designed</span>
+                <span>+600 MKD</span>
+            </div>`;
+        } else if (designerMadeToggle.checked) {
+            breakdownHTML += `<div class="breakdown-item">
+                <span>+ Designer Made</span>
+                <span>+1000 MKD</span>
+            </div>`;
+        }
+
+        // Add total
+        const total = calculateTotal(true);
+        breakdownHTML += `<div class="breakdown-total">
+            <span>Total</span>
+            <span>${total} MKD</span>
+        </div>`;
+  } else {
+    breakdownHTML = '<div class="breakdown-item">Please select a card color</div>';
+  }
+
+  tooltip.innerHTML = breakdownHTML;
+}
+
+// Modify calculateTotal to always show the amount
+function calculateTotal(returnValue = false) {
+  let basePrice = 0;
+  const quantity = 1;
+
+  switch (backgroundSelect.value) {
+    case "gold":
+      basePrice = 2999;
+      break;
+    case "silver":
+    case "black":
+      basePrice = 2499;
+      break;
+  }
+
+  if (basePrice > 0) {
+    if (selfDesignedToggle.checked) {
+      basePrice += 600;
+    } else if (designerMadeToggle.checked) {
+      basePrice += 1000;
+    }
+  }
+
+  const totalAmount = basePrice * quantity;
+
+  // Always update the display
+  totalAmountDisplay.textContent = `${totalAmount} MKD`;
+
+  if (returnValue) {
+    return totalAmount;
+  }
+
+  updatePriceBreakdown(); // Update the breakdown whenever total is calculated
+}
+
+// Add event listeners for the tooltip
+document.addEventListener("DOMContentLoaded", () => {
+  const infoIcon = document.querySelector(".fa-circle-info");
+  const tooltip = document.getElementById("price-breakdown");
+
+  infoIcon.addEventListener("mouseenter", () => {
+    tooltip.style.display = "block";
+    updatePriceBreakdown(); // Update breakdown when hovering
+  });
+
+  infoIcon.addEventListener("mouseleave", () => {
+    tooltip.style.display = "none";
+  });
+});
+
+// Add these event listeners to ensure the total updates when selections change
+backgroundSelect.addEventListener("change", calculateTotal);
+premadeToggle.addEventListener("change", calculateTotal);
+designerMadeToggle.addEventListener("change", calculateTotal);
+selfDesignedToggle.addEventListener("change", calculateTotal);
+
+// Call calculateTotal initially to show the initial amount
+calculateTotal();
