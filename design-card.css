@@ -611,8 +611,9 @@ button {
   }
 
   #notification {
-    width: 80%;
+    width: 90%;
   }
+
   #controls {
     width: 350px;
     padding: 15px;
@@ -668,7 +669,7 @@ button {
   }
 
   .notification-buttons {
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
   }
 
