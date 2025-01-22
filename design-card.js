@@ -829,10 +829,10 @@ function showSaveNotification() {
         <h2>Design Saved Successfully!</h2>
         <p>Your card design has been saved.</p>
         <div class="notification-buttons">
-            <button id="order-saved-card" class="upload-btn">
-                Order Now <i class="fas fa-shopping-cart"></i>
+            <button id="order-saved-card" class="save-button">
+                Order Now <i class="fa-solid fa-bag-shopping"></i></i>
             </button>
-            <button id="edit-again" class="save-button">
+            <button id="edit-again" class="upload-btn">
                 Edit Again <i class="fas fa-edit"></i>
             </button>
         </div>

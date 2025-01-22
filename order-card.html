@@ -1,148 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Order Card</title>
-    <link rel="stylesheet" href="order-card.css"> <!-- Link to your order card CSS file -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script> <!-- Font Awesome -->
-    <script src="order-card.js" defer></script> <!-- Link to your new JS file -->
-</head>
-<body>
-
-    
+    <link rel="stylesheet" href="order-card.css" />
+    <!-- Link to your order card CSS file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <!-- Font Awesome -->
+    <script src="order-card.js" defer></script>
+    <!-- Link to your new JS file -->
+  </head>
+  <body>
     <div id="order-card-section">
+      <a href="design-card.html">
+        <button class="upload-btn">Go Customise</button>
+      </a>
 
-        <a href="customizer.html">
-            <button class="upload-btn"  >Go Customise</button>
-        </a>
+      <h1>Order Your Card</h1>
 
-        <h1>Order Your Card</h1>
+      <div id="controls">
+        <form id="order-card-form">
+          <div class="control-item">
+            <input type="text" id="name" placeholder="Name" />
+            <input type="text" id="surname" placeholder="Surname" />
+          </div>
+          <div class="control-item">
+            <input type="text" id="phone" placeholder="Phone" />
+            <input type="email" id="email" placeholder="Email" />
+          </div>
+          <div class="control-item">
+            <input type="text" id="address" placeholder="Address" />
+            <select id="city">
+                <option value="Skopje">Skopje</option>
+                <option value="Kumanovo">Kumanovo</option>
+                <option value="Bitola">Bitola</option>
+                <option value="Prilep">Prilep</option>
+                <option value="Tetovo">Tetovo</option>
+                <option value="Štip">Štip</option>
+                <option value="Veles">Veles</option>
+                <option value="Ohrid">Ohrid</option>
+                <option value="Strumica">Strumica</option>
+                <option value="Gostivar">Gostivar</option>
+                <option value="Kavadarci">Kavadarci</option>
+                <option value="Kočani">Kočani</option>
+                <option value="Kičevo">Kičevo</option>
+                <option value="Gevgelija">Gevgelija</option>
+                <option value="Struga">Struga</option>
+                <option value="Radoviš">Radoviš</option>
+                <option value="Kriva Palanka">Kriva Palanka</option>
+                <option value="Negotino">Negotino</option>
+                <option value="Debar">Debar</option>
+                <option value="Sveti Nikole">Sveti Nikole</option>
+                <option value="Probištip">Probištip</option>
+                <option value="Delčevo">Delčevo</option>
+                <option value="Vinica">Vinica</option>
+                <option value="Resen">Resen</option>
+                <option value="Berovo">Berovo</option>
+                <option value="Kratovo">Kratovo</option>
+                <option value="Bogdanci">Bogdanci</option>
+                <option value="Makedonska Kamenica">Makedonska Kamenica</option>
+                <option value="Kruševo">Kruševo</option>
+                <option value="Valandovo">Valandovo</option>
+                <option value="Makedonski Brod">Makedonski Brod</option>
+                <option value="Demir Kapija">Demir Kapija</option>
+                <option value="Pehčevo">Pehčevo</option>
+                <option value="Demir Hisar">Demir Hisar</option>                
+            </select>
+          </div>
+          <div class="control-item">
+            <div class="quantity-container">
+              <span class="quantity-label">Quantity:</span>
+              <div class="custom-number-input">
+                <button id="decrement-btn">-</button>
+                <input type="number" id="number-input" value="1" min="1" />
+                <button id="increment-btn">+</button>
+              </div>
+            </div>
+          </div>
 
-        <div id="controls">
-            <form id="order-card-form">
-                <div class="control-item">
-                    <input type="text" id="name" placeholder="Name" required>
-                    <input type="text" id="surname" placeholder="Surname" required>
-                </div>
-                <div class="control-item">
-                    <input type="text" id="phone" placeholder="Phone" required>
-                    <input type="email" id="email" placeholder="Email" required>
-                </div>
-                <div class="control-item">
-                    <input type="text" id="address" placeholder="Address" required>
-                    <select id="city" required>
-                        <option value="">Select City</option>
-                        <option value="Skopje">Skopje</option>
-                        <option value="Bitola">Bitola</option>
-                        <option value="Ohrid">Ohrid</option>
-                        <option value="Tetovo">Tetovo</option>
-                        <option value="Kumanovo">Kumanovo</option>
-                        <!-- Add more cities as needed -->
-                    </select>
-                </div>
-                <div class="control-item">
-                    <select id="metal-color" required>
-                        <option value="">Card Color</option>
-                        <option value="Gold">Gold</option>
-                        <option value="Silver">Silver</option>
-                        <option value="Rose Gold">Rose Gold</option>
-                    </select>
-                    <div class="custom-number-input">
-                        <button id="decrement-btn">-</button>
-                        <input type="number" id="number-input" value="1" min="1" />
-                        <button id="increment-btn">+</button>
-                    </div>
-                </div>
-
-
-                
-                <div class="control-item">
-                    <label class="toggle-container">
-                        <input type="checkbox" id="premade-toggle" checked>
-                        <span class="toggle-slider"></span>
-                        <span class="toggle-text">Premade Design</span>
-                    </label>
-                    <select id="premade-design" required>
-                        <option value="" disabled>Select Design</option>
-                        <option>Amex</option>
-                        <option>Millionaires Club</option>
-                        <option>OFF White</option>
-                    </select>
-                </div>
-                <div class="control-item">
-                    <label class="toggle-container">
-                        <input type="checkbox" id="preview-toggle">
-                        <span id="designed" class="toggle-slider"></span>
-                        <span class="toggle-text">Self Designed</span>
-                    </label>
-                    <label class="toggle-container">
-                        <input type="checkbox" id="designer-made-toggle">
-                        <span id="designed" class="toggle-slider"></span>
-                        <span class="toggle-text">Designer Made</span>
-                    </label>
-                </div>
-                
-                
-                <div class="design-input">
-                        <input type="file" id="attach-preview-file" accept="image/*" style="display: none;">
-                        <button class="upload-btn" id="attach-preview-btn">
-                            Attach Your Preview <i class="fas fa-paperclip"></i>
-                        </button>
-                        <span id="attached-preview-name" style="display: block; margin-top: 10px;"></span> <!-- To display the file name -->
-                </div>
-
-                <div class="control-item" id="design-attachment" style="display: none;">
-                    <div class="design-input">
-                        <input type="file" id="front-design" accept="image/*" style="display: none;">
-                        <button class="upload-btn" id="upload-btn-front">
-                            Attach Original Front Design  <i class="fas fa-paperclip"></i>
-                        </button>
-                        <span id="attached-front-design-name" style="display: block; margin-top: 10px;"></span> <!-- To display the front file name -->
-                    </div>
-                    <div class="design-input">
-                        <input type="file" id="back-design" accept="image/*" style="display: none;">
-                        <button class="upload-btn" id="upload-btn-back">
-                            Attach Original Back Design  <i class="fas fa-paperclip"></i>
-                        </button>
-                        <span id="attached-back-design-name" style="display: block; margin-top: 10px;"></span> <!-- To display the back file name -->
-                    </div>
-                    
-                </div>
-                <div class="control-item" style="display: flex; justify-content: space-between; width: 100%;">
-                    <div id="total-amount">
-                        <span>Total Amount:</span>
-                        <span id="amount-value">0 MKD</span>
-                    </div>
-                    <button type="submit" id="submit-order">Submit Order</button>
-                </div>
-            </form>
-            <div id="order-notification"></div>
-        </div>
+          <div
+            class="control-item"
+            style="display: flex; justify-content: space-between; width: 100%"
+          >
+            <div id="total-amount">
+              <span>Total Amount:</span>
+              <span id="amount-value">0 MKD</span>
+            </div>
+            <button type="submit" id="submit-order" class="save-button" >Submit Order</button>
+          </div>
+        </form>
+        <div id="order-notification"></div>
+      </div>
     </div>
 
     <!-- Confirmation Notification Modal -->
-    <div id="confirmation-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <h2>Order Confirmation</h2>
-            <div id="confirmation-summary">
-                <p><strong>Name:</strong> <span id="confirm-name"></span></p>
-                <p><strong>Surname:</strong> <span id="confirm-surname"></span></p>
-                <p><strong>Email:</strong> <span id="confirm-email"></span></p>
-                <p><strong>Phone:</strong> <span id="confirm-phone"></span></p>
-                <p><strong>Address:</strong> <span id="confirm-address"></span></p>
-                <p><strong>City:</strong> <span id="confirm-city"></span></p>
-                <p><strong>Card Color:</strong> <span id="confirm-color"></span></p>
-                <p><strong>Quantity:</strong> <span id="confirm-quantity"></span></p>
-                <p><strong>Design Type:</strong> <span id="confirm-design"></span></p>
-                <p id="confirm-design-name" style="display: none;">
-                    <strong>Design Name:</strong> <span id="confirm-design-name-value"></span>
-                </p>
-                <p><strong>Total Amount:</strong> <span id="amount-value">0 MKD</span></p>
-            </div>
-            <button id="confirm-order">Confirm and Order</button>
-            <button id="close-confirmation">Close</button>
+    <div id="confirmation-modal" class="modal" style="display: none">
+      <div class="modal-content">
+        <h2>Order Confirmation</h2>
+        <div id="confirmation-summary">
+          <p><strong>Name:</strong> <span id="confirm-name"></span></p>
+          <p><strong>Surname:</strong> <span id="confirm-surname"></span></p>
+          <p><strong>Email:</strong> <span id="confirm-email"></span></p>
+          <p><strong>Phone:</strong> <span id="confirm-phone"></span></p>
+          <p><strong>Address:</strong> <span id="confirm-address"></span></p>
+          <p><strong>City:</strong> <span id="confirm-city"></span></p>
+          <p><strong>Card Color:</strong> <span id="confirm-color"></span></p>
+          <p><strong>Quantity:</strong> <span id="confirm-quantity"></span></p>
+          <p><strong>Design Type:</strong> <span id="confirm-design"></span></p>
+          <p id="confirm-design-name" style="display: none">
+            <strong>Design Name:</strong>
+            <span id="confirm-design-name-value"></span>
+          </p>
+          <p>
+            <strong>Total Amount:</strong>
+            <span id="confirm-amount">0 MKD</span>
+          </p>
         </div>
+
+        <div class="close-edit">
+            <button id="close-confirmation">Close <i class="fa-solid fa-circle-xmark"></i></button>
+            <a href="design-card.html">
+                <button class="edit-card">Edit Card <i class="fas fa-edit"></i></button>
+                
+              </a>
+        </div>
+
+        <button id="confirm-order" class="save-button">Confirm and Order <i class="fa-solid fa-cart-shopping"></i></button>
+
     </div>
-</body>
+    </div>
+  </body>
 </html>
