@@ -29,6 +29,91 @@ let uploadedImageFront = null;
 let uploadedImageBack = null;
 let isDraggingFront = false,
   isDraggingBack = false;
+
+// Load and apply saved design on page load
+window.addEventListener("DOMContentLoaded", () => {
+  // First set default gold card
+  backgroundSelect.value = "gold";
+  backgroundSelect.dispatchEvent(new Event("change"));
+
+  // Try to load saved design
+  const savedDesign = localStorage.getItem("savedCardDesign");
+  if (savedDesign) {
+    const design = JSON.parse(savedDesign);
+
+    // Apply saved values
+    nameInput.value = design.name;
+    cardNumberInput.value = design.cardNumber;
+    dateInput.value = design.expiryDate;
+    backgroundSelect.value = design.backgroundColor;
+    fontPicker.value = design.fontStyle;
+
+    // Apply text to preview
+    nameText.textContent = design.name || "YOUR NAME";
+    cardNumberText.textContent = design.cardNumber || "XXXX XXXX XXXX XXXX";
+    dateText.textContent = design.expiryDate || "MM/YY";
+
+    // Set toggle states and handle input disabling
+    showCardNumber.checked = design.showCardNumber;
+    showCardDate.checked = design.showCardDate;
+
+    // Disable inputs based on toggle states
+    cardNumberInput.disabled = !design.showCardNumber;
+    cardNumberText.style.display = design.showCardNumber ? "block" : "none";
+
+    dateInput.disabled = !design.showCardDate;
+    dateText.style.display = design.showCardDate ? "block" : "none";
+
+    // Set other toggle states
+    premadeToggle.checked = design.isPremadeDesign;
+    selfDesignedToggle.checked = design.isSelfDesigned;
+    designerMadeToggle.checked = design.isDesignerMade;
+
+    // Set premade design if applicable
+    if (design.isPremadeDesign && design.premadeDesign) {
+      previewSelect.value = design.premadeDesign;
+    }
+
+    // Load images if they exist
+    if (design.frontImage) {
+      uploadedImageFront = document.createElement("img");
+      uploadedImageFront.src = design.frontImage.src;
+      uploadedImageFront.style.position = "absolute";
+      uploadedImageFront.style.top = design.frontImage.position.top;
+      uploadedImageFront.style.left = design.frontImage.position.left;
+      uploadedImageFront.style.transform = `translate(-50%, -50%) scale(${design.frontImage.scale})`;
+      uploadedImageFront.draggable = false;
+      imageOverlayFront.innerHTML = "";
+      imageOverlayFront.appendChild(uploadedImageFront);
+      scaleSliderFront.value = design.frontImage.scale;
+    }
+
+    if (design.backImage) {
+      uploadedImageBack = document.createElement("img");
+      uploadedImageBack.src = design.backImage.src;
+      uploadedImageBack.style.position = "absolute";
+      uploadedImageBack.style.top = design.backImage.position.top;
+      uploadedImageBack.style.left = design.backImage.position.left;
+      uploadedImageBack.style.transform = `translate(-50%, -50%) scale(${design.backImage.scale})`;
+      uploadedImageBack.draggable = false;
+      imageOverlayBack.innerHTML = "";
+      imageOverlayBack.appendChild(uploadedImageBack);
+      scaleSliderBack.value = design.backImage.scale;
+    }
+
+    // Update UI
+    handleToggles(new Event("change"));
+    updateBackground();
+
+    // Update image visibility based on toggle state
+    updateImageVisibility();
+  }
+
+  // Calculate total and update save button state
+  calculateTotal();
+  updateSaveButtonState();
+});
+
 // Update the background images
 function updateBackground() {
   const selectedValue = backgroundSelect.value;
@@ -203,17 +288,26 @@ nameInput.addEventListener("input", (event) => {
 
 // Update card number text with formatting XXXX XXXX XXXX XXXX
 cardNumberInput.addEventListener("input", (event) => {
-  let value = event.target.value.replace(/\D/g, ""); // Remove non-digits
-  if (value.length > 16) value = value.slice(0, 16); // Limit to 16 digits
+  let value = event.target.value.replace(/\s/g, ""); // Remove existing spaces
+  value = value.replace(/\D/g, ""); // Remove non-digits
 
-  // Add spaces every 4 digits
-  const formatted = value.replace(/(\d{4})/g, "$1 ").trim();
+  // Limit to 16 digits
+  if (value.length > 16) {
+    value = value.slice(0, 16);
+  }
+
+  // Add spaces after every 4 digits
+  const parts = value.match(/.{1,4}/g) || [];
+  const formatted = parts.join(" ");
+
+  // Update input value
   event.target.value = formatted;
+
+  // Update preview text
   cardNumberText.textContent = formatted || "XXXX XXXX XXXX XXXX";
 
-  if (showCardNumber.checked) {
-    validateCardNumber();
-  }
+  // Update save button state
+  updateSaveButtonState();
 });
 
 // Update expiry date text with MM/YY format
@@ -229,6 +323,8 @@ dateInput.addEventListener("input", (event) => {
     // Validate month (01-12)
     if (parseInt(month) > 12) {
       value = "12" + year;
+    } else if (parseInt(month) < 1) {
+      value = "01" + year;
     }
 
     value = month + (year.length ? "/" + year : "");
@@ -237,9 +333,8 @@ dateInput.addEventListener("input", (event) => {
   event.target.value = value;
   dateText.textContent = value || "MM/YY";
 
-  if (showCardDate.checked) {
-    validateDate();
-  }
+  // Update save button state
+  updateSaveButtonState();
 });
 
 // Add maxlength attributes to inputs
@@ -282,14 +377,13 @@ function validateDate() {
   return true;
 }
 
-// Add these event listeners
+// Update showCardNumber event listener to maintain the preview text
 showCardNumber.addEventListener("change", (e) => {
   cardNumberInput.disabled = !e.target.checked;
   cardNumberText.style.display = e.target.checked ? "block" : "none";
   if (!e.target.checked) {
     cardNumberInput.value = "";
     cardNumberText.textContent = "XXXX XXXX XXXX XXXX";
-    cardNumberInput.style.borderColor = "#ccc";
   }
 });
 
@@ -468,7 +562,22 @@ function enableEditing() {
     controls.removeChild(notification); // Remove from controls
   }
 }
-// Function to handle toggle changes
+
+// Add this function to handle image visibility
+function updateImageVisibility() {
+  if (uploadedImageFront) {
+    imageOverlayFront.style.display = selfDesignedToggle.checked
+      ? "block"
+      : "none";
+  }
+  if (uploadedImageBack) {
+    imageOverlayBack.style.display = selfDesignedToggle.checked
+      ? "block"
+      : "none";
+  }
+}
+
+// Modify the handleToggles function
 function handleToggles(event) {
   const premadeToggle = document.getElementById("premade-toggle");
   const selfDesignedToggle = document.getElementById("preview-toggle");
@@ -478,7 +587,7 @@ function handleToggles(event) {
   const backDesignUpload = document.getElementById("design-attachment-back");
   const contactButtons1 = document.getElementById("contact-1");
   const contactButtons2 = document.getElementById("contact-2");
-  const backgroundSelect = document.getElementById("background-select"); // Assuming you have a dropdown for colors
+  const backgroundSelect = document.getElementById("background-select");
 
   // Uncheck other toggles when one is clicked
   if (event.target === premadeToggle) {
@@ -528,6 +637,9 @@ function handleToggles(event) {
     contactButtons1.style.display = "none"; // Hide contact buttons
     contactButtons2.style.display = "none"; // Hide contact buttons
   }
+
+  // Update image visibility based on toggle state
+  updateImageVisibility();
 }
 
 // Event listeners for toggles
@@ -560,32 +672,33 @@ function updatePriceBreakdown() {
             <span>${basePrice} MKD</span>
         </div>`;
 
-        // Add design costs if applicable
-        if (premadeToggle.checked) {
-            breakdownHTML += `<div class="breakdown-item">
+    // Add design costs if applicable
+    if (premadeToggle.checked) {
+      breakdownHTML += `<div class="breakdown-item">
                 <span>+ Premade Design</span>
                 <span style="color: #4CAF50">+0 MKD</span>
             </div>`;
-        } else if (selfDesignedToggle.checked) {
-            breakdownHTML += `<div class="breakdown-item">
+    } else if (selfDesignedToggle.checked) {
+      breakdownHTML += `<div class="breakdown-item">
                 <span>+ Self Designed</span>
                 <span>+600 MKD</span>
             </div>`;
-        } else if (designerMadeToggle.checked) {
-            breakdownHTML += `<div class="breakdown-item">
+    } else if (designerMadeToggle.checked) {
+      breakdownHTML += `<div class="breakdown-item">
                 <span>+ Designer Made</span>
                 <span>+1000 MKD</span>
             </div>`;
-        }
+    }
 
-        // Add total
-        const total = calculateTotal(true);
-        breakdownHTML += `<div class="breakdown-total">
+    // Add total
+    const total = calculateTotal(true);
+    breakdownHTML += `<div class="breakdown-total">
             <span>Total</span>
             <span>${total} MKD</span>
         </div>`;
   } else {
-    breakdownHTML = '<div class="breakdown-item">Please select a card color</div>';
+    breakdownHTML =
+      '<div class="breakdown-item">Please select a card color</div>';
   }
 
   tooltip.innerHTML = breakdownHTML;
@@ -649,3 +762,203 @@ selfDesignedToggle.addEventListener("change", calculateTotal);
 
 // Call calculateTotal initially to show the initial amount
 calculateTotal();
+
+function saveCardDesign() {
+  // Create an object to store all card details
+  const cardDesign = {
+    // Basic details
+    name: nameInput.value,
+    cardNumber: cardNumberInput.value,
+    expiryDate: dateInput.value,
+
+    // Style selections
+    backgroundColor: backgroundSelect.value,
+    fontStyle: fontPicker.value,
+
+    // Toggle states
+    showCardNumber: showCardNumber.checked,
+    showCardDate: showCardDate.checked,
+    isPremadeDesign: premadeToggle.checked,
+    isSelfDesigned: selfDesignedToggle.checked,
+    isDesignerMade: designerMadeToggle.checked,
+
+    // Premade design selection
+    premadeDesign: previewSelect.value,
+
+    // Image details (if uploaded)
+    frontImage: uploadedImageFront
+      ? {
+          src: uploadedImageFront.src,
+          position: {
+            top: uploadedImageFront.style.top,
+            left: uploadedImageFront.style.left,
+          },
+          scale: scaleSliderFront.value,
+        }
+      : null,
+
+    backImage: uploadedImageBack
+      ? {
+          src: uploadedImageBack.src,
+          position: {
+            top: uploadedImageBack.style.top,
+            left: uploadedImageBack.style.left,
+          },
+          scale: scaleSliderBack.value,
+        }
+      : null,
+
+    // Price details
+    totalAmount: totalAmountDisplay.textContent,
+  };
+
+  // Save to localStorage
+  localStorage.setItem("savedCardDesign", JSON.stringify(cardDesign));
+
+  // Show success notification
+  showSaveNotification();
+}
+
+function showSaveNotification() {
+  const controls = document.getElementById("controls");
+
+  // Create notification
+  const notification = document.createElement("div");
+  notification.id = "notification";
+  notification.innerHTML = `
+        <h2>Design Saved Successfully!</h2>
+        <p>Your card design has been saved.</p>
+        <div class="notification-buttons">
+            <button id="order-saved-card" class="upload-btn">
+                Order Now <i class="fas fa-shopping-cart"></i>
+            </button>
+            <button id="edit-again" class="save-button">
+                Edit Again <i class="fas fa-edit"></i>
+            </button>
+        </div>
+    `;
+
+  // Add notification to controls
+  controls.appendChild(notification);
+
+  // Add event listeners to buttons
+  document.getElementById("order-saved-card").addEventListener("click", () => {
+    window.location.href = "order-card.html";
+  });
+
+  document.getElementById("edit-again").addEventListener("click", () => {
+    notification.remove();
+  });
+}
+
+// Add this after saveCardDesign function
+function checkSavedDesign() {
+  const saved = localStorage.getItem("savedCardDesign");
+  if (saved) {
+    console.log("Saved design:", JSON.parse(saved));
+  } else {
+    console.log("No saved design found");
+  }
+}
+
+// Update isFormValid function to include proper date validation
+function isFormValid() {
+  // Check name (always required)
+  if (!nameInput.value.trim()) {
+    return false;
+  }
+
+  // Check card number (must be 16 digits) if shown
+  if (showCardNumber.checked) {
+    const cardNumber = cardNumberInput.value.replace(/\s/g, ""); // Remove spaces
+    if (!/^\d{16}$/.test(cardNumber)) {
+      // Check for exactly 16 digits
+      return false;
+    }
+  }
+
+  // Check date (must be MM/YY format) if shown
+  if (showCardDate.checked) {
+    const dateValue = dateInput.value;
+    // Check if format is correct (MM/YY)
+    if (!/^\d{2}\/\d{2}$/.test(dateValue)) {
+      return false;
+    }
+
+    // Extract month and year
+    const [month, year] = dateValue.split("/").map((num) => parseInt(num, 10));
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear() % 100; // Get last 2 digits
+    const currentMonth = currentDate.getMonth() + 1; // getMonth() returns 0-11
+
+    // Validate month range
+    if (month < 1 || month > 12) {
+      return false;
+    }
+
+    // Validate year (must be current year or later)
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      return false;
+    }
+  }
+
+  // Check design selection
+  if (premadeToggle.checked) {
+    // If premade design is selected, check if a design is chosen
+    if (!previewSelect.value) {
+      return false;
+    }
+  } else if (selfDesignedToggle.checked) {
+    // If self-designed is selected, check if at least one image is uploaded
+    if (!uploadedImageFront && !uploadedImageBack) {
+      return false;
+    }
+  } else if (!designerMadeToggle.checked) {
+    // If no design option is selected
+    return false;
+  }
+
+  return true;
+}
+
+// Function to update save button state
+function updateSaveButtonState() {
+  const saveButton = document.getElementById("save-design");
+  if (isFormValid()) {
+    saveButton.disabled = false;
+    saveButton.style.opacity = "1";
+    saveButton.style.cursor = "pointer";
+  } else {
+    saveButton.disabled = true;
+    saveButton.style.opacity = "0.5";
+    saveButton.style.cursor = "not-allowed";
+  }
+}
+
+// Add event listeners for all relevant inputs
+nameInput.addEventListener("input", updateSaveButtonState);
+cardNumberInput.addEventListener("input", updateSaveButtonState);
+dateInput.addEventListener("input", updateSaveButtonState);
+showCardNumber.addEventListener("change", updateSaveButtonState);
+showCardDate.addEventListener("change", updateSaveButtonState);
+premadeToggle.addEventListener("change", updateSaveButtonState);
+selfDesignedToggle.addEventListener("change", updateSaveButtonState);
+designerMadeToggle.addEventListener("change", updateSaveButtonState);
+previewSelect.addEventListener("change", updateSaveButtonState);
+
+// Add listeners for image uploads
+uploadImageFront.addEventListener("change", updateSaveButtonState);
+uploadImageBack.addEventListener("change", updateSaveButtonState);
+
+// Modify the save button listener
+document.getElementById("save-design").addEventListener("click", (e) => {
+  if (!isFormValid()) {
+    e.preventDefault();
+    return;
+  }
+  saveCardDesign();
+  checkSavedDesign();
+});
+
+// Initial button state
+updateSaveButtonState();
