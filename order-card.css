@@ -303,9 +303,31 @@ button:hover {
     margin-top: 15px;
   }
 
+  .close-edit button,
+  .close-edit .edit-card {
+    padding: 8px 12px;
+    font-size: 13px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .close-edit i {
+    font-size: 12px;
+  }
+
+  /* Make the confirm order button more compact */
   #confirm-order {
+    margin-top: 15px;
     padding: 10px 15px;
     font-size: 14px;
+  }
+
+  /* Adjust modal content padding */
+  .modal-content {
+    padding: 20px 15px;
   }
 
   /* Total amount and submit button container */
