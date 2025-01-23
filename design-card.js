@@ -343,7 +343,7 @@ cardNumberInput.setAttribute("maxlength", "19"); // 16 digits + 3 spaces
 dateInput.setAttribute("maxlength", "5"); // MM/YY = 5 characters
 
 // Add placeholders
-nameInput.setAttribute("placeholder", "YOUR NAME");
+nameInput.setAttribute("placeholder", "YOUR NAME *");
 cardNumberInput.setAttribute("placeholder", "YOUR CARD NUMBER");
 dateInput.setAttribute("placeholder", "MM/YY");
 
@@ -828,12 +828,9 @@ function showSaveNotification() {
   notification.innerHTML = `
         <h2>Design Saved Successfully!</h2>
         <p>Your card design has been saved.</p>
-        <div class="notification-buttons">
+        <div>
             <button id="order-saved-card" class="save-button">
                 Order Now <i class="fa-solid fa-bag-shopping"></i></i>
-            </button>
-            <button id="edit-again" class="upload-btn">
-                Edit Again <i class="fas fa-edit"></i>
             </button>
         </div>
     `;
@@ -846,9 +843,7 @@ function showSaveNotification() {
     window.location.href = "order-card.html";
   });
 
-  document.getElementById("edit-again").addEventListener("click", () => {
-    notification.remove();
-  });
+  
 }
 
 // Add this after saveCardDesign function
@@ -962,3 +957,48 @@ document.getElementById("save-design").addEventListener("click", (e) => {
 
 // Initial button state
 updateSaveButtonState();
+
+document.addEventListener("DOMContentLoaded", () => {
+    const saveDesignButton = document.getElementById("save-design");
+    const editAgainButton = document.createElement("button"); // Create Edit Again button
+    const allInteractiveElements = document.querySelectorAll(
+      "input, button, select, textarea, .upload-btn, [contenteditable]"
+    );
+  
+    // Style and add text to the Edit Again button
+    editAgainButton.innerHTML = 'Edit Again <i class="fas fa-edit"></i>';
+    editAgainButton.style.display = "none"; // Hidden initially
+    editAgainButton.classList.add("blue-outline-button"); // Optional styling
+    saveDesignButton.parentNode.appendChild(editAgainButton); // Append next to the Save Design button
+  
+    // Function to disable all interactive elements
+    function disableAll() {
+      allInteractiveElements.forEach((element) => {
+        element.disabled = true;
+        element.style.pointerEvents = "none"; // Disable clicking/dragging
+        element.style.opacity = "0.5"; // Optional: visual indication
+      });
+      saveDesignButton.style.display = "none"; // Hide Save Design button
+      editAgainButton.style.display = "block"; // Show Edit Again button
+    }
+  
+    // Function to enable all interactive elements
+    function enableAll() {
+      allInteractiveElements.forEach((element) => {
+        element.disabled = false;
+        element.style.pointerEvents = "auto"; // Re-enable clicking/dragging
+        element.style.opacity = "1"; // Reset visual indication
+      });
+      saveDesignButton.style.display = "block"; // Show Save Design button
+      editAgainButton.style.display = "none"; // Hide Edit Again button
+    }
+  
+    // Add event listeners for Save Design and Edit Again buttons
+    saveDesignButton.addEventListener("click", disableAll);
+    editAgainButton.addEventListener("click", () => {
+        notification.remove();
+        enableAll();
+    });
+    
+  });
+  
