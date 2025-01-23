@@ -967,19 +967,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function captureScreenshot() {
     const cardPreview = document.getElementById("card-preview");
-  
+
     try {
       const canvas = await html2canvas(cardPreview, {
         useCORS: true, // Ensures external images load properly
         backgroundColor: null, // Makes transparent background
       });
-  
+
       // Convert canvas to Base64 image
       const imageData = canvas.toDataURL("image/png");
-  
+
       // Get the existing design data from localStorage
-      let existingData = JSON.parse(localStorage.getItem("savedCardDesign")) || {};
-  
+      let existingData =
+        JSON.parse(localStorage.getItem("savedCardDesign")) || {};
+
       // Add new screenshot data to the existing data
       const updatedData = {
         ...existingData,
@@ -988,30 +989,28 @@ document.addEventListener("DOMContentLoaded", () => {
         cardNumber: document.getElementById("card-number-text").textContent,
         date: document.getElementById("date-text").textContent,
       };
-  
+
       // Save the updated data back to localStorage
       localStorage.setItem("savedCardDesign", JSON.stringify(updatedData));
-  
+
       console.log("Screenshot Data:", updatedData);
-  
+
       // Optional: Save the image locally as a download
       const link = document.createElement("a");
       link.href = imageData;
       link.download = "card-design.png";
       link.click();
-  
-      return updatedData; // Return for further use
+
+      return { existingData, updatedData }; // Return both for further use
     } catch (error) {
       console.error("Error capturing screenshot:", error);
     }
   }
-  
 
   // Add event listener for Save Design button
   saveDesignButton.addEventListener("click", async () => {
     disableAll(); // Disable interactions and update button states
     const screenshotData = await captureScreenshot(); // Capture the screenshot
-    console.log("Captured and saved:", screenshotData);
   });
 
   // Add event listener for Edit Again button

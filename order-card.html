@@ -10,11 +10,25 @@
     <!-- Font Awesome -->
     <script src="order-card.js" defer></script>
     <!-- Link to your new JS file -->
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init({
+          publicKey: "pNsAlqS5_PuM8ckTz",
+        });
+      })();
+    </script>
   </head>
   <body>
     <div id="order-card-section">
       <a href="design-card.html">
-        <button class="blue-filled-button" style="width: 200px;">Go Customise</button>
+        <button class="blue-filled-button" style="width: 200px">
+          Go Customise
+        </button>
       </a>
 
       <h1>Order Your Card</h1>
@@ -32,40 +46,40 @@
           <div class="control-item">
             <input type="text" id="address" placeholder="Address" />
             <select id="city">
-                <option value="Skopje">Skopje</option>
-                <option value="Kumanovo">Kumanovo</option>
-                <option value="Bitola">Bitola</option>
-                <option value="Prilep">Prilep</option>
-                <option value="Tetovo">Tetovo</option>
-                <option value="Štip">Štip</option>
-                <option value="Veles">Veles</option>
-                <option value="Ohrid">Ohrid</option>
-                <option value="Strumica">Strumica</option>
-                <option value="Gostivar">Gostivar</option>
-                <option value="Kavadarci">Kavadarci</option>
-                <option value="Kočani">Kočani</option>
-                <option value="Kičevo">Kičevo</option>
-                <option value="Gevgelija">Gevgelija</option>
-                <option value="Struga">Struga</option>
-                <option value="Radoviš">Radoviš</option>
-                <option value="Kriva Palanka">Kriva Palanka</option>
-                <option value="Negotino">Negotino</option>
-                <option value="Debar">Debar</option>
-                <option value="Sveti Nikole">Sveti Nikole</option>
-                <option value="Probištip">Probištip</option>
-                <option value="Delčevo">Delčevo</option>
-                <option value="Vinica">Vinica</option>
-                <option value="Resen">Resen</option>
-                <option value="Berovo">Berovo</option>
-                <option value="Kratovo">Kratovo</option>
-                <option value="Bogdanci">Bogdanci</option>
-                <option value="Makedonska Kamenica">Makedonska Kamenica</option>
-                <option value="Kruševo">Kruševo</option>
-                <option value="Valandovo">Valandovo</option>
-                <option value="Makedonski Brod">Makedonski Brod</option>
-                <option value="Demir Kapija">Demir Kapija</option>
-                <option value="Pehčevo">Pehčevo</option>
-                <option value="Demir Hisar">Demir Hisar</option>                
+              <option value="Skopje">Skopje</option>
+              <option value="Kumanovo">Kumanovo</option>
+              <option value="Bitola">Bitola</option>
+              <option value="Prilep">Prilep</option>
+              <option value="Tetovo">Tetovo</option>
+              <option value="Štip">Štip</option>
+              <option value="Veles">Veles</option>
+              <option value="Ohrid">Ohrid</option>
+              <option value="Strumica">Strumica</option>
+              <option value="Gostivar">Gostivar</option>
+              <option value="Kavadarci">Kavadarci</option>
+              <option value="Kočani">Kočani</option>
+              <option value="Kičevo">Kičevo</option>
+              <option value="Gevgelija">Gevgelija</option>
+              <option value="Struga">Struga</option>
+              <option value="Radoviš">Radoviš</option>
+              <option value="Kriva Palanka">Kriva Palanka</option>
+              <option value="Negotino">Negotino</option>
+              <option value="Debar">Debar</option>
+              <option value="Sveti Nikole">Sveti Nikole</option>
+              <option value="Probištip">Probištip</option>
+              <option value="Delčevo">Delčevo</option>
+              <option value="Vinica">Vinica</option>
+              <option value="Resen">Resen</option>
+              <option value="Berovo">Berovo</option>
+              <option value="Kratovo">Kratovo</option>
+              <option value="Bogdanci">Bogdanci</option>
+              <option value="Makedonska Kamenica">Makedonska Kamenica</option>
+              <option value="Kruševo">Kruševo</option>
+              <option value="Valandovo">Valandovo</option>
+              <option value="Makedonski Brod">Makedonski Brod</option>
+              <option value="Demir Kapija">Demir Kapija</option>
+              <option value="Pehčevo">Pehčevo</option>
+              <option value="Demir Hisar">Demir Hisar</option>
             </select>
           </div>
           <div class="control-item">
@@ -87,22 +101,21 @@
               <span>Total Amount:</span>
               <span id="amount-value">0 MKD</span>
             </div>
-            <button type="submit" id="submit-order" class="save-button" >Submit Order</button>
+            <button type="submit" id="submit-order" class="save-button">
+              Submit Order
+            </button>
           </div>
         </form>
         <div id="order-notification"></div>
       </div>
     </div>
 
-
     <div id="confirmation-modal" class="modal" style="display: none">
+      <div id="content-images">
+        <div class="modal-content">
+          <h2>Order Confirmation</h2>
 
-        <div id="content-images">
-            <div class="modal-content">
-            <h2>Order Confirmation</h2>
-
-            
-            <div id="confirmation-summary">
+          <div id="confirmation-summary">
             <p><strong>Name:</strong> <span id="confirm-name"></span></p>
             <p><strong>Surname:</strong> <span id="confirm-surname"></span></p>
             <p><strong>Email:</strong> <span id="confirm-email"></span></p>
@@ -110,33 +123,46 @@
             <p><strong>Address:</strong> <span id="confirm-address"></span></p>
             <p><strong>City:</strong> <span id="confirm-city"></span></p>
             <p><strong>Card Color:</strong> <span id="confirm-color"></span></p>
-            <p><strong>Quantity:</strong> <span id="confirm-quantity"></span></p>
-            <p><strong>Design Type:</strong> <span id="confirm-design"></span></p>
-            <p id="confirm-design-name" style="display: none">
-                <strong>Design Name:</strong>
-                <span id="confirm-design-name-value"></span>
+            <p>
+              <strong>Quantity:</strong> <span id="confirm-quantity"></span>
             </p>
             <p>
-                <strong>Total Amount:</strong>
-                <span id="confirm-amount">0 MKD</span>
+              <strong>Design Type:</strong> <span id="confirm-design"></span>
+            </p>
+            <p id="confirm-design-name" style="display: none">
+              <strong>Design Name:</strong>
+              <span id="confirm-design-name-value"></span>
+            </p>
+            <p>
+              <strong>Total Amount:</strong>
+              <span id="confirm-amount">0 MKD</span>
             </p>
             <p>*Delivery cost not covered.</p>
-            </div>
+          </div>
 
-            <div class="close-edit">
-                <button id="close-confirmation" class="blue-outline-button">Close <i class="fa-solid fa-circle-xmark"></i></button>
-                <a href="design-card.html">
-                    <button class="blue-outline-button">Edit Card <i class="fas fa-edit"></i></button>
-                    
-                </a>
-            </div>
-            <button id="see-designed-button" class="blue-outline-button" style="width: 100%;">See Designed image <i class="fa-solid fa-image"></i></button>
+          <div class="close-edit">
+            <button id="close-confirmation" class="blue-outline-button">
+              Close <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+            <a href="design-card.html">
+              <button class="blue-outline-button">
+                Edit Card <i class="fas fa-edit"></i>
+              </button>
+            </a>
+          </div>
+          <button
+            id="see-designed-button"
+            class="blue-outline-button"
+            style="width: 100%"
+          >
+            See Designed image <i class="fa-solid fa-image"></i>
+          </button>
 
-            <button id="confirm-order" class="save-button">Confirm and Order <i class="fa-solid fa-cart-shopping"></i></button>
-
-            </div>
+          <button id="confirm-order" class="save-button" >
+            Confirm and Order <i class="fa-solid fa-cart-shopping"></i>
+          </button>
         </div>
+      </div>
     </div>
-
   </body>
 </html>

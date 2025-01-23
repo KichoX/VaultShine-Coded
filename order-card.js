@@ -203,7 +203,7 @@ if (savedDesignData) {
   const design = JSON.parse(savedDesignData);
 
   // Extract screenshot details
-  const { image, name, cardNumber, date } = design;
+  const { image } = design;
 
   // Example: Display the screenshot in the confirmation modal
   const screenshotPreview = document.createElement("img");
@@ -229,7 +229,45 @@ seeDesignedButton.addEventListener("click", () => {
 
     // Check if the window width is less than or equal to 768px (mobile view)
     if (window.innerWidth <= 768) {
-      modalPage.style.top = "100px"; // Adjust top position for mobile view
+      modalPage.style.top = "200px"; // Adjust top position for mobile view
     }
   }
+});
+
+function sendOrderEmail(clientName, email, phone, message) {
+  // Send email using EmailJS
+  emailjs
+    .send("service_slcrgms", "template_zkxai0r", {
+      clientName: clientName,
+      email: email,
+      phone: phone,
+      message: message,
+    })
+    .then(
+      (response) => {
+        console.log("Email sent successfully!", response.status, response.text);
+        alert("Your order has been submitted!");
+      },
+      (error) => {
+        console.error("Error sending email:", error);
+        alert("There was a problem sending your order.");
+      }
+    );
+}
+
+document.getElementById("confirm-order").addEventListener("click", function () {
+  const clientName = `${document.getElementById("name").value} ${
+    document.getElementById("surname").value
+  }`;
+  const email = document.getElementById("email").value;
+  const phone = document.getElementById("phone").value;
+
+  const message = `
+      New order is made!
+      Client Name: ${clientName}
+      Email: ${email}
+      Phone: ${phone}
+  `;
+
+  sendOrderEmail(clientName, email, phone, message);
 });
