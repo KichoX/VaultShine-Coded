@@ -202,8 +202,8 @@ input[type="file"] {
   background-color: #0056b3; /* Darker blue when a file is uploaded */
 }
 
-.close-edit{
-    margin-top: 20px;
+.close-edit {
+  margin-top: 20px;
 }
 
 #premade-design {
@@ -225,6 +225,14 @@ input[type="file"] {
   z-index: 1000; /* Ensure it appears above other content */
 }
 
+.modal img {
+  height: 562px;
+}
+
+#content-images {
+  display: flex;
+}
+
 .modal-content {
   background-color: white;
   padding: 30px;
@@ -232,6 +240,7 @@ input[type="file"] {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   text-align: left;
   width: 400px;
+  margin-right: 30px;
 }
 
 .modal-content h2 {
@@ -354,6 +363,12 @@ input[type="file"] {
   padding-left: 20px;
 }
 
+#see-designed-button {
+  width: 100%;
+  margin-top: 20px;
+  display: none;
+}
+
 @media (max-width: 768px) {
   #controls {
     width: 100%;
@@ -415,10 +430,10 @@ input[type="file"] {
 
   /* Modal styles for mobile */
   .modal-content {
-    width: 90%;
-    max-width: 350px;
-    margin: 15px;
+    width: 100%;
+    max-width: 400px;
     padding: 20px;
+    margin-left: 0px;
   }
 
   .modal-content h2 {
@@ -442,6 +457,27 @@ input[type="file"] {
     padding: 20px 15px;
   }
 
+  .modal{
+    background-color: transparent;
+    position: absolute;
+  }
+
+  .modal img {
+    width: 370px;
+    height: 493px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: none;
+  }
+
+  #content-images {
+    display: block;
+  }
+
+  #see-designed-button {
+    display: block;
+  }
+
   /* Total amount and submit button container */
   .control-item:last-child {
     flex-direction: column;
@@ -459,7 +495,6 @@ input[type="file"] {
     margin-left: 0;
   }
 
-  /* Adjust spacing for the entire form */
   #order-card-section {
     gap: 20px;
   }

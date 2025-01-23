@@ -195,3 +195,41 @@ document.getElementById("confirm-order").addEventListener("click", function () {
   document.getElementById("confirmation-modal").style.display = "none";
   // Here you could add code to submit the order to a server
 });
+
+// Retrieve saved design data
+const savedDesignData = localStorage.getItem("savedCardDesign");
+
+if (savedDesignData) {
+  const design = JSON.parse(savedDesignData);
+
+  // Extract screenshot details
+  const { image, name, cardNumber, date } = design;
+
+  // Example: Display the screenshot in the confirmation modal
+  const screenshotPreview = document.createElement("img");
+  screenshotPreview.src = image;
+  screenshotPreview.alt = "Saved Card Design";
+  document.getElementById("content-images").appendChild(screenshotPreview);
+}
+
+// Assuming you have the modal image with a specific ID or class
+const seeDesignedButton = document.getElementById("see-designed-button");
+const modalImage = document.querySelector(".modal img"); // Adjust the selector if needed
+const modalPage = document.querySelector(".modal");
+
+// Initialize the image display to none
+
+seeDesignedButton.addEventListener("click", () => {
+  // Toggle the display property of the modal image
+  if (modalImage.style.display === "block") {
+    modalImage.style.display = "none"; // Hide the image
+    modalPage.style.top = "0"; // Reset top position
+  } else {
+    modalImage.style.display = "block"; // Show the image
+
+    // Check if the window width is less than or equal to 768px (mobile view)
+    if (window.innerWidth <= 768) {
+      modalPage.style.top = "100px"; // Adjust top position for mobile view
+    }
+  }
+});

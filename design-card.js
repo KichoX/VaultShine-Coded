@@ -491,78 +491,6 @@ document.addEventListener("touchend", () => {
   isDraggingBack = false; // Reset dragging state
 });
 
-// Function to disable editing
-function disableEditing() {
-  // Disable input fields
-  const inputs = document.querySelectorAll("input, select");
-  inputs.forEach((input) => {
-    input.disabled = true;
-  });
-
-  // Disable the save button
-  const saveButton = document.getElementById("save-preview");
-  saveButton.disabled = true; // Disable the button
-  saveButton.classList.add("controls-disabled"); // Add the disabled class for styling
-
-  // Disable image modifications
-  imageOverlayFront.style.pointerEvents = "none";
-  imageOverlayBack.style.pointerEvents = "none";
-
-  // Add class to change styles
-  const controls = document.getElementById("controls");
-  controls.classList.add("controls-disabled");
-
-  // Show notification
-  const notification = document.createElement("div");
-  notification.id = "notification";
-  notification.innerHTML = `
-        <h2>Preview saved!</h2>
-        <p>Please take a screenshot.</p>
-        <button id="cancel-edit">Edit Again <i class="fa-solid fa-circle-xmark fa-lg"></i> </button>
-    `;
-  controls.appendChild(notification); // Append to controls
-
-  // Make the notification centered
-  notification.style.position = "absolute"; // Keep it absolute
-  notification.style.top = "50%"; // Center vertically
-  notification.style.left = "50%"; // Center horizontally
-  notification.style.transform = "translate(-50%, -50%)"; // Adjust for centering
-  notification.style.zIndex = "2000"; // Ensure it stays on top
-  notification.style.textAlign = "center"; // Center text inside the notification
-
-  // Add event listener to cancel button
-  const cancelButton = document.getElementById("cancel-edit");
-  cancelButton.addEventListener("click", enableEditing);
-}
-
-// Function to enable editing
-function enableEditing() {
-  // Enable input fields
-  const inputs = document.querySelectorAll("input, select");
-  inputs.forEach((input) => {
-    input.disabled = false;
-  });
-
-  // Enable the save button
-  const saveButton = document.getElementById("save-preview");
-  saveButton.disabled = false; // Enable the button
-  saveButton.classList.remove("controls-disabled"); // Remove the disabled class for styling
-
-  // Enable image modifications
-  imageOverlayFront.style.pointerEvents = "auto";
-  imageOverlayBack.style.pointerEvents = "auto";
-
-  // Remove class to revert styles
-  const controls = document.getElementById("controls");
-  controls.classList.remove("controls-disabled");
-
-  // Remove notification
-  const notification = document.getElementById("notification");
-  if (notification) {
-    controls.removeChild(notification); // Remove from controls
-  }
-}
-
 // Add this function to handle image visibility
 function updateImageVisibility() {
   if (uploadedImageFront) {
@@ -842,8 +770,6 @@ function showSaveNotification() {
   document.getElementById("order-saved-card").addEventListener("click", () => {
     window.location.href = "order-card.html";
   });
-
-  
 }
 
 // Add this after saveCardDesign function
@@ -955,50 +881,142 @@ document.getElementById("save-design").addEventListener("click", (e) => {
   checkSavedDesign();
 });
 
+// // Initial button state
+// updateSaveButtonState();
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   const saveDesignButton = document.getElementById("save-design");
+//   const editAgainButton = document.createElement("button"); // Create Edit Again button
+//   const allInteractiveElements = document.querySelectorAll(
+//     "input, button, select, textarea, .upload-btn, [contenteditable]"
+//   );
+
+//   // Style and add text to the Edit Again button
+//   editAgainButton.innerHTML = 'Edit Again <i class="fas fa-edit"></i>';
+//   editAgainButton.style.display = "none"; // Hidden initially
+//   editAgainButton.classList.add("blue-outline-button"); // Optional styling
+//   saveDesignButton.parentNode.appendChild(editAgainButton); // Append next to the Save Design button
+
+//   // Function to disable all interactive elements
+//   function disableAll() {
+//     allInteractiveElements.forEach((element) => {
+//       element.disabled = true;
+//       element.style.pointerEvents = "none"; // Disable clicking/dragging
+//       element.style.opacity = "0.5"; // Optional: visual indication
+//     });
+//     saveDesignButton.style.display = "none"; // Hide Save Design button
+//     editAgainButton.style.display = "block"; // Show Edit Again button
+//   }
+
+//   // Function to enable all interactive elements
+//   function enableAll() {
+//     allInteractiveElements.forEach((element) => {
+//       element.disabled = false;
+//       element.style.pointerEvents = "auto"; // Re-enable clicking/dragging
+//       element.style.opacity = "1"; // Reset visual indication
+//     });
+//     saveDesignButton.style.display = "block"; // Show Save Design button
+//     editAgainButton.style.display = "none"; // Hide Edit Again button
+//   }
+
+//   // Add event listeners for Save Design and Edit Again buttons
+//   saveDesignButton.addEventListener("click", disableAll);
+//   editAgainButton.addEventListener("click", () => {
+//     notification.remove();
+//     enableAll();
+//   });
+// });
+
 // Initial button state
 updateSaveButtonState();
 
 document.addEventListener("DOMContentLoaded", () => {
-    const saveDesignButton = document.getElementById("save-design");
-    const editAgainButton = document.createElement("button"); // Create Edit Again button
-    const allInteractiveElements = document.querySelectorAll(
-      "input, button, select, textarea, .upload-btn, [contenteditable]"
-    );
-  
-    // Style and add text to the Edit Again button
-    editAgainButton.innerHTML = 'Edit Again <i class="fas fa-edit"></i>';
-    editAgainButton.style.display = "none"; // Hidden initially
-    editAgainButton.classList.add("blue-outline-button"); // Optional styling
-    saveDesignButton.parentNode.appendChild(editAgainButton); // Append next to the Save Design button
-  
-    // Function to disable all interactive elements
-    function disableAll() {
-      allInteractiveElements.forEach((element) => {
-        element.disabled = true;
-        element.style.pointerEvents = "none"; // Disable clicking/dragging
-        element.style.opacity = "0.5"; // Optional: visual indication
-      });
-      saveDesignButton.style.display = "none"; // Hide Save Design button
-      editAgainButton.style.display = "block"; // Show Edit Again button
-    }
-  
-    // Function to enable all interactive elements
-    function enableAll() {
-      allInteractiveElements.forEach((element) => {
-        element.disabled = false;
-        element.style.pointerEvents = "auto"; // Re-enable clicking/dragging
-        element.style.opacity = "1"; // Reset visual indication
-      });
-      saveDesignButton.style.display = "block"; // Show Save Design button
-      editAgainButton.style.display = "none"; // Hide Edit Again button
-    }
-  
-    // Add event listeners for Save Design and Edit Again buttons
-    saveDesignButton.addEventListener("click", disableAll);
-    editAgainButton.addEventListener("click", () => {
-        notification.remove();
-        enableAll();
+  const saveDesignButton = document.getElementById("save-design");
+  const editAgainButton = document.createElement("button"); // Create Edit Again button
+  const allInteractiveElements = document.querySelectorAll(
+    "input, button, select, textarea, .upload-btn, [contenteditable]"
+  );
+
+  // Style and add text to the Edit Again button
+  editAgainButton.innerHTML = 'Edit Again <i class="fas fa-edit"></i>';
+  editAgainButton.style.display = "none"; // Hidden initially
+  editAgainButton.classList.add("blue-outline-button"); // Optional styling
+  saveDesignButton.parentNode.appendChild(editAgainButton); // Append next to the Save Design button
+
+  // Function to disable all interactive elements
+  function disableAll() {
+    allInteractiveElements.forEach((element) => {
+      element.disabled = true;
+      element.style.pointerEvents = "none"; // Disable clicking/dragging
+      element.style.opacity = "0.5"; // Optional: visual indication
     });
-    
-  });
+    saveDesignButton.style.display = "none"; // Hide Save Design button
+    editAgainButton.style.display = "block"; // Show Edit Again button
+  }
+
+  // Function to enable all interactive elements
+  function enableAll() {
+    allInteractiveElements.forEach((element) => {
+      element.disabled = false;
+      element.style.pointerEvents = "auto"; // Re-enable clicking/dragging
+      element.style.opacity = "1"; // Reset visual indication
+    });
+    saveDesignButton.style.display = "block"; // Show Save Design button
+    editAgainButton.style.display = "none"; // Hide Edit Again button
+  }
+
+  async function captureScreenshot() {
+    const cardPreview = document.getElementById("card-preview");
   
+    try {
+      const canvas = await html2canvas(cardPreview, {
+        useCORS: true, // Ensures external images load properly
+        backgroundColor: null, // Makes transparent background
+      });
+  
+      // Convert canvas to Base64 image
+      const imageData = canvas.toDataURL("image/png");
+  
+      // Get the existing design data from localStorage
+      let existingData = JSON.parse(localStorage.getItem("savedCardDesign")) || {};
+  
+      // Add new screenshot data to the existing data
+      const updatedData = {
+        ...existingData,
+        image: imageData, // Add/Update Base64 image string
+        name: document.getElementById("name-text").textContent,
+        cardNumber: document.getElementById("card-number-text").textContent,
+        date: document.getElementById("date-text").textContent,
+      };
+  
+      // Save the updated data back to localStorage
+      localStorage.setItem("savedCardDesign", JSON.stringify(updatedData));
+  
+      console.log("Screenshot Data:", updatedData);
+  
+      // Optional: Save the image locally as a download
+      const link = document.createElement("a");
+      link.href = imageData;
+      link.download = "card-design.png";
+      link.click();
+  
+      return updatedData; // Return for further use
+    } catch (error) {
+      console.error("Error capturing screenshot:", error);
+    }
+  }
+  
+
+  // Add event listener for Save Design button
+  saveDesignButton.addEventListener("click", async () => {
+    disableAll(); // Disable interactions and update button states
+    const screenshotData = await captureScreenshot(); // Capture the screenshot
+    console.log("Captured and saved:", screenshotData);
+  });
+
+  // Add event listener for Edit Again button
+  editAgainButton.addEventListener("click", () => {
+    notification.remove(); // Custom notification removal (if applicable)
+    enableAll(); // Re-enable interactions and reset button states
+  });
+});
