@@ -191,9 +191,8 @@ document
 
 // Handle order confirmation
 document.getElementById("confirm-order").addEventListener("click", function () {
-  alert("Order confirmed! Thank you for your purchase.");
+  //   alert("Order confirmed! Thank you for your purchase.");
   document.getElementById("confirmation-modal").style.display = "none";
-  // Here you could add code to submit the order to a server
 });
 
 // Retrieve saved design data
@@ -234,40 +233,109 @@ seeDesignedButton.addEventListener("click", () => {
   }
 });
 
-function sendOrderEmail(clientName, email, phone, message) {
-  // Send email using EmailJS
-  emailjs
-    .send("service_slcrgms", "template_zkxai0r", {
-      clientName: clientName,
-      email: email,
-      phone: phone,
-      message: message,
-    })
-    .then(
-      (response) => {
-        console.log("Email sent successfully!", response.status, response.text);
-        alert("Your order has been submitted!");
-      },
-      (error) => {
-        console.error("Error sending email:", error);
-        alert("There was a problem sending your order.");
-      }
-    );
+function sendOrderEmail(
+    clientName,
+    email,
+    phone,
+    address,
+    city,
+    cardColor,
+    font,
+    cardName,
+    cardNumber,
+    date,
+    isPremade,
+    premadeDesignSelected,
+    designType,
+    message
+) {
+    // Prepare the email data
+    const emailData = {
+        clientName: clientName,
+        email: email,
+        phone: phone,
+        address: address,
+        city: city,
+        message: message,
+    };
+
+    // Log the message being sent
+    console.log("Sending email with the following data:", emailData);
+
+    // Send email using EmailJS
+    emailjs
+      .send("service_slcrgms", "template_zkxai0r", emailData)
+      .then(
+        (response) => {
+          console.log("Email sent successfully!", response.status, response.text);
+          alert("Your order has been submitted!");
+        },
+        (error) => {
+          console.error("Error sending email:", error);
+          alert("There was a problem sending your order.");
+        }
+      );
 }
 
+// Handle order confirmation
 document.getElementById("confirm-order").addEventListener("click", function () {
-  const clientName = `${document.getElementById("name").value} ${
-    document.getElementById("surname").value
-  }`;
-  const email = document.getElementById("email").value;
-  const phone = document.getElementById("phone").value;
+    const clientName = `${document.getElementById("name").value} ${
+      document.getElementById("surname").value
+    }`;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const address = document.getElementById("address").value;
+    const city = document.getElementById("city").value;
 
-  const message = `
-      New order is made!
-      Client Name: ${clientName}
-      Email: ${email}
-      Phone: ${phone}
-  `;
+    // Retrieve saved design data
+    const savedDesignData = localStorage.getItem("savedCardDesign");
 
-  sendOrderEmail(clientName, email, phone, message);
+    if (savedDesignData) {
+        const design = JSON.parse(savedDesignData);
+
+        // Extract relevant details from the design object
+        const cardColor = design.backgroundColor;
+        const font = design.fontStyle;
+        const cardName = design.name;
+        const cardNumber = design.cardNumber;
+        const date = design.expiryDate;
+        const isPremade = design.isPremadeDesign;
+        const premadeDesignSelected = design.premadeDesign;
+        const designType = design.designType;
+
+        // Prepare the message with the design details
+        const message = `
+          Order Details:
+
+          Card Color: ${cardColor}
+          Font: ${font}
+          Card Name: ${cardName}
+          Card Number: ${cardNumber}
+          Date: ${date}
+          Is Premade: ${isPremade ? "Yes" : "No"}
+          Premade Design Selected: ${premadeDesignSelected}
+          Design Type: ${designType}
+        `;
+
+        // Call the function to send the email
+        sendOrderEmail(
+          clientName,
+          email,
+          phone,
+          address,
+          city,
+          cardColor,
+          font,
+          cardName,
+          cardNumber,
+          date,
+          isPremade,
+          premadeDesignSelected,
+          designType,
+          message
+        );
+    }
 });
+
+// Front Image: ${frontImage}
+//       Back Image: ${backImage}

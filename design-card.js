@@ -1019,3 +1019,4 @@ document.addEventListener("DOMContentLoaded", () => {
     enableAll(); // Re-enable interactions and reset button states
   });
 });
+
