@@ -1,3 +1,13 @@
+@font-face {
+    font-family: "Social Gothic DemiBold";
+    src: url("fonts/Social Gothic DemiBold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Toxigenesis Bold";
+    src: url("fonts/toxigenesis bd.otf") format("opentype");
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif,
     "Futura";

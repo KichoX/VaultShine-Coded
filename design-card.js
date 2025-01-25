@@ -112,6 +112,9 @@ window.addEventListener("DOMContentLoaded", () => {
   // Calculate total and update save button state
   calculateTotal();
   updateSaveButtonState();
+
+  // Apply saved font
+  applySavedFont();
 });
 
 // Update the background images
@@ -277,6 +280,7 @@ fontPicker.addEventListener("change", (event) => {
   nameText.style.fontFamily = font;
   cardNumberText.style.fontFamily = font;
   dateText.style.fontFamily = font;
+  localStorage.setItem("selectedFont", font);
 });
 
 // Update name text from input field with uppercase
@@ -881,52 +885,6 @@ document.getElementById("save-design").addEventListener("click", (e) => {
   checkSavedDesign();
 });
 
-// // Initial button state
-// updateSaveButtonState();
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   const saveDesignButton = document.getElementById("save-design");
-//   const editAgainButton = document.createElement("button"); // Create Edit Again button
-//   const allInteractiveElements = document.querySelectorAll(
-//     "input, button, select, textarea, .upload-btn, [contenteditable]"
-//   );
-
-//   // Style and add text to the Edit Again button
-//   editAgainButton.innerHTML = 'Edit Again <i class="fas fa-edit"></i>';
-//   editAgainButton.style.display = "none"; // Hidden initially
-//   editAgainButton.classList.add("blue-outline-button"); // Optional styling
-//   saveDesignButton.parentNode.appendChild(editAgainButton); // Append next to the Save Design button
-
-//   // Function to disable all interactive elements
-//   function disableAll() {
-//     allInteractiveElements.forEach((element) => {
-//       element.disabled = true;
-//       element.style.pointerEvents = "none"; // Disable clicking/dragging
-//       element.style.opacity = "0.5"; // Optional: visual indication
-//     });
-//     saveDesignButton.style.display = "none"; // Hide Save Design button
-//     editAgainButton.style.display = "block"; // Show Edit Again button
-//   }
-
-//   // Function to enable all interactive elements
-//   function enableAll() {
-//     allInteractiveElements.forEach((element) => {
-//       element.disabled = false;
-//       element.style.pointerEvents = "auto"; // Re-enable clicking/dragging
-//       element.style.opacity = "1"; // Reset visual indication
-//     });
-//     saveDesignButton.style.display = "block"; // Show Save Design button
-//     editAgainButton.style.display = "none"; // Hide Edit Again button
-//   }
-
-//   // Add event listeners for Save Design and Edit Again buttons
-//   saveDesignButton.addEventListener("click", disableAll);
-//   editAgainButton.addEventListener("click", () => {
-//     notification.remove();
-//     enableAll();
-//   });
-// });
-
 // Initial button state
 updateSaveButtonState();
 
@@ -996,10 +954,10 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Screenshot Data:", updatedData);
 
       // Optional: Save the image locally as a download
-      const link = document.createElement("a");
-      link.href = imageData;
-      link.download = "card-design.png";
-      link.click();
+      //   const link = document.createElement("a");
+      //   link.href = imageData;
+      //   link.download = "card-design.png";
+      //   link.click();
 
       return { existingData, updatedData }; // Return both for further use
     } catch (error) {
@@ -1020,3 +978,24 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Function to apply the font from local storage
+function applySavedFont() {
+  const savedFont = localStorage.getItem("selectedFont");
+  const fontPicker = document.getElementById("font-picker");
+
+  if (savedFont) {
+    fontPicker.value = savedFont; // Set the font picker to the saved font
+    // Apply the saved font to the specific text elements
+    nameText.style.fontFamily = savedFont;
+    cardNumberText.style.fontFamily = savedFont;
+    dateText.style.fontFamily = savedFont;
+  } else {
+    // Set default font to Bold if no font is saved
+    const defaultFont = "Social Gothic DemiBold"; // Change this to your default font value
+    fontPicker.value = defaultFont;
+    // Apply the default font to the specific text elements
+    nameText.style.fontFamily = defaultFont;
+    cardNumberText.style.fontFamily = defaultFont;
+    dateText.style.fontFamily = defaultFont;
+  }
+}
