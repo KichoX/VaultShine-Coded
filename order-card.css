@@ -431,8 +431,8 @@ input[type="file"] {
   /* Modal styles for mobile */
   .modal-content {
     width: 100%;
-    max-width: 400px;
-    padding: 20px;
+    min-width: 340px;
+    padding: 20px 15px;
     margin-left: 0px;
   }
 
@@ -450,11 +450,6 @@ input[type="file"] {
     margin-top: 15px;
     padding: 10px 15px;
     font-size: 14px;
-  }
-
-  /* Adjust modal content padding */
-  .modal-content {
-    padding: 20px 15px;
   }
 
   .modal{
@@ -504,3 +499,10 @@ input[type="file"] {
     margin-bottom: 15px;
   }
 }
+
+
+/* Add this to your CSS file */
+.blurred {
+    filter: blur(5px); /* Adjust the blur amount as needed */
+    transition: filter 0.3s ease; /* Smooth transition for the blur effect */
+  }
