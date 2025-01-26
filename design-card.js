@@ -129,9 +129,17 @@ function updateBackground() {
 
   // If the toggle is ON, prioritize the premade design
   if (usePremadeDesign) {
-    if (selectedPreview === "Amex") {
-      cardFrontBackground.src = "images/americanExpress.jpeg";
-      cardBackBackground.src = "images/american-express-back.jpg";
+    if (selectedPreview === "Amex-silver") {
+      cardFrontBackground.src = "images/american-express-silver-front.png";
+      cardBackBackground.src = "images/american-express-silver-back.png";
+
+       nameText.style.color = "black"; 
+       cardNumberText.style.color = "black"; 
+       dateText.style.color = "black"; 
+
+    } else if (selectedPreview === "Amex-gold") {
+        cardFrontBackground.src = "images/american-express-gold-front.png";
+        cardBackBackground.src = "images/american-express-gold-back.png";
     } else if (selectedPreview === "Millionaires Club") {
       // Add logic for Millionaires Club if needed
       cardFrontBackground.src = "images/millionairesClubFront.png";
@@ -144,6 +152,9 @@ function updateBackground() {
   } else {
     // If the toggle is OFF, revert to color selections
     updateColorBackground(selectedValue);
+    nameText.style.color = ""; 
+    cardNumberText.style.color = ""; 
+    dateText.style.color = ""; 
   }
 }
 
