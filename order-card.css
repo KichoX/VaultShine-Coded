@@ -41,7 +41,6 @@ h1 {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-top: 20px;
   gap: 20px;
 }
 
@@ -88,6 +87,14 @@ select {
 
 input[type="file"] {
   width: 100%; /* Full width */
+}
+
+input[type="text"],
+input[type="email"],
+select,
+#city,
+.quantity-container {
+  margin-top: 15px;
 }
 
 #design-attachment {
@@ -268,6 +275,7 @@ input[type="file"] {
   border: 1px solid #e0e0e0;
   border-radius: 24px;
   letter-spacing: 1px;
+  margin-bottom: 15px;
 }
 
 .quantity-label {
@@ -369,6 +377,11 @@ input[type="file"] {
   display: none;
 }
 
+.blurred {
+  filter: blur(5px);
+  transition: filter 0.3s ease;
+}
+
 @media (max-width: 768px) {
   #controls {
     width: 100%;
@@ -379,12 +392,11 @@ input[type="file"] {
   .control-item {
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
-    margin-top: 15px;
     width: 100%;
     max-width: 320px; /* Add max-width to prevent overflow */
     margin-left: auto;
     margin-right: auto;
+    gap: 0px;
   }
 
   input[type="text"],
@@ -402,7 +414,6 @@ input[type="file"] {
     width: 100%;
     height: 45px;
     max-width: 100%;
-    margin-top: 5px;
   }
 
   .quantity-container {
@@ -452,7 +463,7 @@ input[type="file"] {
     font-size: 14px;
   }
 
-  .modal{
+  .modal {
     background-color: transparent;
     position: absolute;
   }
@@ -499,10 +510,3 @@ input[type="file"] {
     margin-bottom: 15px;
   }
 }
-
-
-/* Add this to your CSS file */
-.blurred {
-    filter: blur(5px); /* Adjust the blur amount as needed */
-    transition: filter 0.3s ease; /* Smooth transition for the blur effect */
-  }
